@@ -1,0 +1,36 @@
+{
+    "name": "agenciafmd/admix-articles",
+    "description": "Artigos - Agência F&MD",
+    "homepage": "https://github.com/agenciafmd/admix-articles",
+    "authors": [
+        {
+            "name": "Irineu Junior",
+            "email": "irineu@fmd.ag",
+            "homepage": "http://fmd.ag/",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "laravel/framework": "5.8.*",
+        "agenciafmd/admix-categories": "dev-master"
+    },
+    "autoload": {
+        "classmap": [
+            "src/database/seeds",
+            "src/database/factories"
+        ],
+        "files": [
+            "src/Http/helpers.php"
+        ],
+        "psr-4": {
+            "Agenciafmd\\Articles\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Agenciafmd\\Articles\\Providers\\ArticleServiceProvider"
+            ]
+        }
+    }
+}
