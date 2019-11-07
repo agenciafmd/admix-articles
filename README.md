@@ -23,7 +23,10 @@ TODO: Exemplificar o uso
 
 ## Customização
 
-Copie o arquivo `/vendor/agenciafmd/admix-articles/src/config/admix-articles.php` para `config/admix-articles.php`
+Para customizar as configurações do pacote, publique os arquivos de configuração usando:
+```
+php artisan vendor:publish --provider="Agenciafmd\Articles\Providers\ArticleServiceProvider" --tag configs
+```
 
 ```php
 <?php
