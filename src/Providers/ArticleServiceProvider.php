@@ -67,6 +67,12 @@ class ArticleServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../resources/views' => base_path('resources/views/vendor/agenciafmd/articles'),
         ], 'views');
+
+        $this->publishes([
+            __DIR__ . '/../config/admix-articles.php' => config_path('admix-articles.php'),
+            __DIR__ . '/../config/admix-categories.php' => config_path('admix-categories.php'),
+            __DIR__ . '/../config/upload-configs.php' => config_path('upload-configs.php'),
+        ], 'configs');
     }
 
     public function setLocalFactories()
