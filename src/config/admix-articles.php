@@ -11,7 +11,7 @@ return [
         'name',
     ],
     'wysiwyg' => true,
-    'category' => true,
+    'category' => false,
     'call' => false,
     'short_description' => false,
     'video' => false,
