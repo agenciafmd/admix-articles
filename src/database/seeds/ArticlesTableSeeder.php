@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class ArticlesTableSeeder extends Seeder
 {
-    protected $total = 2;
+    protected $total = 50;
 
     public function run()
     {
