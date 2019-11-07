@@ -60,7 +60,10 @@ class Article extends Model implements AuditableContract, HasMedia
     public function scopeIsActive($query)
     {
         $query->where('is_active', 1)
-            ->where('published_at', '<=', Carbon::now());
+            ->where(function ($query) {
+                $query->whereNull('published_at')
+                    ->orWhere('published_at', '<=', Carbon::now());
+            });
     }
 
     public function setPublishedAtAttribute($value)
