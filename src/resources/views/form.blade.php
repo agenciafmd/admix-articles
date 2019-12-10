@@ -66,8 +66,8 @@
             {!! Form::bsDateTime('Data de Publicação', 'published_at', optional(optional($model)->published_at)->format("Y-m-d\TH:i"), ['required']) !!}
         @endif
 
-        @if(config('admix-articles.download'))
-            {!! Form::bsMedia('Download', 'download', $model) !!}
+        @if(config('admix-articles.downloads'))
+            {!! Form::bsMedias('Downloads', 'downloads', $model) !!}
         @endif
 
         @foreach(config('upload-configs.article') as $key => $image)
