@@ -12,7 +12,7 @@
     ],
     "require": {
       "laravel/framework": "6.*",
-      "agenciafmd/admix-categories": "dev-develop"
+      "agenciafmd/admix-categories": "dev-master"
     },
     "autoload": {
         "classmap": [
