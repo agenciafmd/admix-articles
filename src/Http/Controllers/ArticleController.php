@@ -16,6 +16,7 @@ class ArticleController extends Controller
 
         $query = QueryBuilder::for(Article::class)
             ->defaultSorts(config('admix-articles.default_sort'))
+            ->allowedSorts($request->sort)
             ->allowedFilters((($request->filter) ? array_keys($request->get('filter')) : []));
 
         if ($request->is('*/trash')) {

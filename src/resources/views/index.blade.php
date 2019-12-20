@@ -25,11 +25,11 @@
 @section('batch')
     @if(request()->is('*/trash'))
         @can('restore', '\Agenciafmd\Articles\Article')
-            {!! Form::select('batch', ['' => 'com os selecionados', route('admix.articles.batchRestore') => '- restaurar'], null, ['class' => 'js-batch-select form-control custom-select']) !!}
+            @inputSelect(['batch', ['' => 'com os selecionados', route('admix.articles.batchRestore') => '- restaurar'], null, ['class' => 'js-batch-select form-control custom-select']])
         @endcan
     @else
         @can('delete', '\Agenciafmd\Articles\Article')
-            {!! Form::select('batch', ['' => 'com os selecionados', route('admix.articles.batchDestroy') => '- remover'], null, ['class' => 'js-batch-select form-control custom-select']) !!}
+            @inputSelect(['batch', ['' => 'com os selecionados', route('admix.articles.batchDestroy') => '- remover'], null, ['class' => 'js-batch-select form-control custom-select']])
         @endcan
     @endif
 @endsection
@@ -37,13 +37,13 @@
 @section('filters')
     <h6 class="dropdown-header bg-gray-lightest p-2">Destaque</h6>
     <div class="p-2">
-        {{ Form::select('filter[star]', [
-                '' => '-',
-                '1' => 'Sim',
-                '0' => 'Não'
-            ], filter('star'), [
-                'class' => 'form-control form-control-sm'
-            ]) }}
+        @inputSelect(['filter[star]', [
+        '' => '-',
+        '1' => 'Sim',
+        '0' => 'Não'
+        ], filter('star'), [
+        'class' => 'form-control form-control-sm'
+        ]])
     </div>
 
     @if(config('admix-articles.category'))

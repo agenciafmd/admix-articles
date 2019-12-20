@@ -1,7 +1,7 @@
 @extends('agenciafmd/admix::partials.crud.form')
 
 @section('form')
-    {!! Form::bsOpen(['model' => optional($model), 'create' => route('admix.articles.store'), 'update' => route('admix.articles.update', [$model->id])]) !!}
+    @formModel(['model' => optional($model), 'create' => route('admix.articles.store'), 'update' => route('admix.articles.update', [($model->id) ?? 0]), 'id' => 'formCrud', 'class' => 'mb-0 card-list-group card' . ((count($errors) > 0) ? ' was-validated' : '')])
     <div class="card-header bg-gray-lightest">
         <h3 class="card-title">
             @if(request()->is('*/create'))
@@ -20,14 +20,13 @@
         </div>
     </div>
     <ul class="list-group list-group-flush">
-
         @if (optional($model)->id)
-            {!! Form::bsText('Código', 'id', null, ['disabled' => true]) !!}
+            @formText(['Código', 'id', null, ['disabled' => true]])
         @endif
 
-        {!! Form::bsIsActive('Ativo', 'is_active', null, ['required']) !!}
+        @formIsActive(['Ativo', 'is_active', null, ['required']])
 
-        {!! Form::bsBoolean('Destaque', 'star', null, ['required']) !!}
+        @formBoolean(['Destaque', 'star', null, ['required']])
 
         @if(config('admix-articles.category'))
             @include('agenciafmd/categories::partials.form.select', [
@@ -38,43 +37,43 @@
             ])
         @endif
 
-        {!! Form::bsText('Nome', 'name', null, ['required']) !!}
+        @formText(['Nome', 'name', null, ['required']])
 
         @if(config('admix-articles.call'))
-            {!! Form::bsText('Chamada', 'call', null) !!}
+            @formText(['Chamada', 'call', null])
         @endif
 
         @if(config('admix-articles.short_description'))
             @if(config('admix-articles.wysiwyg'))
-                {!! Form::bsTextarea('Resumo', 'short_description', null) !!}
+                @formTextarea(['Resumo', 'short_description', null])
             @else
-                {!! Form::bsTextareaPlain('Resumo', 'short_description', null) !!}
+                @formTextareaPlain(['Resumo', 'short_description', null])
             @endif
         @endif
 
         @if(config('admix-articles.wysiwyg'))
-            {!! Form::bsTextarea('Descrição', 'description', null) !!}
+            @formTextarea(['Descrição', 'description', null])
         @else
-            {!! Form::bsTextareaPlain('Descrição', 'description', null) !!}
+            @formTextareaPlain(['Descrição', 'description', null])
         @endif
 
         @if(config('admix-articles.video'))
-            {!! Form::bsText('Vídeo', 'video', null, [], 'Ex: https://youtu.be/6vk04LqLiCc') !!}
+            @formText(['Vídeo', 'video', null, [], 'Ex: https://youtu.be/6vk04LqLiCc'])
         @endif
 
         @if(config('admix-articles.published_at'))
-            {!! Form::bsDateTime('Data de Publicação', 'published_at', optional(optional($model)->published_at)->format("Y-m-d\TH:i"), ['required']) !!}
+            @formDatetime(['Data de Publicação', 'published_at', null, ['required']])
         @endif
 
         @if(config('admix-articles.downloads'))
-            {!! Form::bsMedias('Downloads', 'downloads', $model) !!}
+            @formMedias(['Downloads', 'downloads', $model])
         @endif
 
         @foreach(config('upload-configs.article') as $key => $image)
             @if($image['multiple'])
-                {!! Form::bsImages($image['name'], $key, $model) !!}
+                @formImages([$image['name'], $key, $model])
             @else
-                {!! Form::bsImage($image['name'], $key, $model) !!}
+                @formImage([$image['name'], $key, $model])
             @endif
         @endforeach
     </ul>
@@ -87,5 +86,5 @@
             @endif
         </div>
     </div>
-    {!! Form::close() !!}
+    @formClose()
 @endsection

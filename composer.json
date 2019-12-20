@@ -11,8 +11,8 @@
         }
     ],
     "require": {
-        "laravel/framework": "5.8.*",
-        "agenciafmd/admix-categories": "dev-master"
+      "laravel/framework": "6.*",
+      "agenciafmd/admix-categories": "dev-develop"
     },
     "autoload": {
         "classmap": [
