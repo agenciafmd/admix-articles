@@ -1,17 +1,18 @@
 {
-    "name": "agenciafmd/admix-articles",
-    "description": "Artigos - Agência F&MD",
-    "homepage": "https://github.com/agenciafmd/admix-articles",
-    "authors": [
-        {
-            "name": "Irineu Junior",
-            "email": "irineu@fmd.ag",
-            "homepage": "http://fmd.ag/",
-            "role": "Developer"
-        }
-    ],
-    "require": {
-      "laravel/framework": "6.*",
+  "name": "agenciafmd/admix-articles",
+  "description": "Artigos - Agência F&MD",
+  "homepage": "https://github.com/agenciafmd/admix-articles",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Irineu Junior",
+      "email": "irineu@fmd.ag",
+      "homepage": "http://fmd.ag/",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "laravel/framework": "6.*",
       "agenciafmd/admix-categories": "dev-master"
     },
     "autoload": {
