@@ -25,11 +25,11 @@
 @section('batch')
     @if(request()->is('*/trash'))
         @can('restore', '\Agenciafmd\Articles\Article')
-            {!! Form::select('batch', ['' => 'com os selecionados', route('admix.articles.batchRestore') => '- restaurar'], null, ['class' => 'js-batch-select form-control custom-select']) !!}
+            {{ Form::select('batch', ['' => 'com os selecionados', route('admix.articles.batchRestore') => '- restaurar'], null, ['class' => 'js-batch-select form-control custom-select']) }}
         @endcan
     @else
         @can('delete', '\Agenciafmd\Articles\Article')
-            {!! Form::select('batch', ['' => 'com os selecionados', route('admix.articles.batchDestroy') => '- remover'], null, ['class' => 'js-batch-select form-control custom-select']) !!}
+            {{ Form::select('batch', ['' => 'com os selecionados', route('admix.articles.batchDestroy') => '- remover'], null, ['class' => 'js-batch-select form-control custom-select']) }}
         @endcan
     @endif
 @endsection
