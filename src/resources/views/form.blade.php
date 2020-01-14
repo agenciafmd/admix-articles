@@ -1,7 +1,7 @@
 @extends('agenciafmd/admix::partials.crud.form')
 
 @section('form')
-    {!! Form::bsOpen(['model' => optional($model), 'create' => route('admix.articles.store'), 'update' => route('admix.articles.update', [$model->id])]) !!}
+    {!! Form::bsOpen(['model' => optional($model), 'create' => route('admix.articles.store'), 'update' => route('admix.articles.update', ['article' => ($model->id) ?? 0])]) !!}
     <div class="card-header bg-gray-lightest">
         <h3 class="card-title">
             @if(request()->is('*/create'))
