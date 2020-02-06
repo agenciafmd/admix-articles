@@ -16,5 +16,5 @@ return [
     'short_description' => false,
     'video' => false,
     'published_at' => false,
-    'downloads' => false,
+    'download' => false,
 ];
