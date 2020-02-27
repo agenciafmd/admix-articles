@@ -18,7 +18,7 @@ class ArticlesTableSeeder extends Seeder
             ->where('model_type', 'Agenciafmd\\Articles\\Article')
             ->delete();
 
-        $faker = Faker\Factory::create();
+        $faker = Faker\Factory::create('pt_BR');
 
         $categories = Category::pluck('id');
 
