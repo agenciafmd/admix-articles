@@ -6,6 +6,8 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class ArticleRequest extends FormRequest
 {
+    protected $errorBag = 'admix';
+
     public function rules()
     {
         $rules = [
