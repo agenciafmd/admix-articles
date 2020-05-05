@@ -37,7 +37,7 @@ class ArticleController extends Controller
 
     public function store(ArticleRequest $request)
     {
-        if ($article = Article::create($request->all())) {
+        if ($article = Article::create($request->validated())) {
             flash('Item inserido com sucesso.', 'success');
         } else {
             flash('Falha no cadastro.', 'danger');
@@ -62,7 +62,7 @@ class ArticleController extends Controller
 
     public function update(Article $article, ArticleRequest $request)
     {
-        if ($article->update($request->all())) {
+        if ($article->update($request->validated())) {
             flash('Item atualizado com sucesso.', 'success');
         } else {
             flash('Falha na atualização.', 'danger');

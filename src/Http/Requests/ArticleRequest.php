@@ -8,27 +8,28 @@ class ArticleRequest extends FormRequest
 {
     public function rules()
     {
-        $data = [
+        $rules = [
             'is_active' => 'required|boolean',
             'name' => 'required|max:150',
             'description' => 'required',
             'short_description' => 'nullable',
             'video' => 'nullable',
+            'media' => 'array|nullable',
         ];
 
         if (config('admix-articles.category')) {
-            $data['category_id'] = 'required|integer';
+            $rules['category_id'] = 'required|integer';
         }
 
         if (config('admix-articles.call')) {
-            $data['call'] = 'nullable|max:250';
+            $rules['call'] = 'nullable|max:250';
         }
 
         if (config('admix-articles.published_at')) {
-            $data['published_at'] = 'required';
+            $rules['published_at'] = 'required';
         }
 
-        return $data;
+        return $rules;
     }
 
     public function attributes()
