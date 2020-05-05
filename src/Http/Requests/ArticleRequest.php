@@ -9,24 +9,24 @@ class ArticleRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'is_active' => 'required|boolean',
-            'name' => 'required|max:150',
-            'description' => 'required',
-            'short_description' => 'nullable',
-            'video' => 'nullable',
-            'media' => 'array|nullable',
+            'is_active' => ['required', 'boolean'],
+            'name' => ['required', 'max:150'],
+            'description' => ['required'],
+            'short_description' => ['nullable'],
+            'video' => ['nullable'],
+            'media' => ['array', 'nullable'],
         ];
 
         if (config('admix-articles.category')) {
-            $rules['category_id'] = 'required|integer';
+            $rules['category_id'] = ['required', 'integer'];
         }
 
         if (config('admix-articles.call')) {
-            $rules['call'] = 'nullable|max:250';
+            $rules['call'] = ['nullable', 'max:250'];
         }
 
         if (config('admix-articles.published_at')) {
-            $rules['published_at'] = 'required';
+            $rules['published_at'] = ['required'];
         }
 
         return $rules;
