@@ -2,6 +2,8 @@
 
 namespace Agenciafmd\Articles\Providers;
 
+use Agenciafmd\Articles\Article;
+use Agenciafmd\Articles\Category;
 use Illuminate\Support\ServiceProvider;
 
 class ArticleServiceProvider extends ServiceProvider
@@ -11,6 +13,8 @@ class ArticleServiceProvider extends ServiceProvider
         $this->providers();
 
         $this->setMenu();
+
+        $this->setSearch();
 
         $this->loadViews();
 
@@ -40,6 +44,13 @@ class ArticleServiceProvider extends ServiceProvider
                 'view' => config('admix-articles.category') ? 'agenciafmd/articles::partials.menus.category-item' : 'agenciafmd/articles::partials.menus.item',
                 'ord' => config('admix-articles.sort', 1),
             ]);
+    }
+
+    protected function setSearch()
+    {
+        $this->app->make('admix-search')
+            ->registerModel(Article::class, 'name')
+            ->registerModel(Category::class, 'name');
     }
 
     protected function loadViews()

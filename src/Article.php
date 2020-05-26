@@ -11,8 +11,10 @@ use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Spatie\Searchable\Searchable;
+use Spatie\Searchable\SearchResult;
 
-class Article extends Model implements AuditableContract, HasMedia
+class Article extends Model implements AuditableContract, HasMedia, Searchable
 {
     use SoftDeletes, Auditable, HasMediaTrait, MediaTrait {
         MediaTrait::registerMediaConversions insteadof HasMediaTrait;
@@ -25,6 +27,24 @@ class Article extends Model implements AuditableContract, HasMedia
     protected $dates = [
         'published_at',
     ];
+
+    public $searchableType;
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        $this->searchableType = config('admix-articles.name');
+    }
+
+    public function getSearchResult(): SearchResult
+    {
+        return new SearchResult(
+            $this,
+            "{$this->name}",
+            route('admix.articles.edit', $this->id)
+        );
+    }
 
     protected static function boot()
     {
