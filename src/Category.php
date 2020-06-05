@@ -28,7 +28,7 @@ class Category extends CategoryBase implements Searchable
     {
         return new SearchResult(
             $this,
-            "{$this->name} ({$this->email})",
+            "{$this->name}",
             route('admix.articles.categories.edit', $this->id)
         );
     }
