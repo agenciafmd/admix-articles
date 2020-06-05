@@ -55,6 +55,7 @@ class ArticleRequest extends FormRequest
         if (config('admix-articles.published_at')) {
             $rules['published_at'] = [
                 'required',
+                'date_format:Y-m-d\TH:i',
             ];
         }
 
