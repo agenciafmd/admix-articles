@@ -3,6 +3,7 @@
 namespace Agenciafmd\Articles;
 
 use Agenciafmd\Admix\MediaTrait;
+use Agenciafmd\Admix\TurboTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
@@ -16,7 +17,11 @@ use Spatie\Searchable\SearchResult;
 
 class Article extends Model implements AuditableContract, HasMedia, Searchable
 {
-    use SoftDeletes, Auditable, HasMediaTrait, MediaTrait {
+    use SoftDeletes,
+        Auditable,
+        HasMediaTrait,
+        TurboTrait,
+        MediaTrait {
         MediaTrait::registerMediaConversions insteadof HasMediaTrait;
     }
 
