@@ -53,11 +53,6 @@ class Category extends CategoryBase implements Searchable
         ]);
     }
 
-    public function getMorphClass()
-    {
-        return CategoryBase::class;
-    }
-
     public function scopeSort($query, $type = 'articles-categories')
     {
         parent::scopeSort($query, $type);

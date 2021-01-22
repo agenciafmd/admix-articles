@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Agenciafmd\Articles\Models\Category;
+use Faker\Factory;
 use Illuminate\Database\Seeder;
 
 class ArticlesCategoriesTableSeeder extends Seeder
@@ -32,8 +33,33 @@ class ArticlesCategoriesTableSeeder extends Seeder
         $this->command->getOutput()
             ->progressStart($this->total);
 
+        $faker = Factory::create('pt_BR');
+
         Category::factory($this->total)
-            ->create();
+            ->create()
+            ->each(function ($category) use ($faker) {
+                foreach (config('upload-configs.articles-categories') as $key => $image) {
+                    $fakerDir = __DIR__ . '/../faker/articles-categories/' . $key;
+
+                    if ($image['faker_dir']) {
+                        $fakerDir = $image['faker_dir'];
+                    }
+
+                    if ($image['multiple']) {
+                        $items = $faker->numberBetween(0, 6);
+                        for ($i = 0; $i < $items; $i++) {
+                            $category->doUploadMultiple($faker->file($fakerDir, storage_path('admix/tmp')), $key);
+                        }
+                    } else {
+                        $category->doUpload($faker->file($fakerDir, storage_path('admix/tmp')), $key);
+                    }
+                }
+
+                $category->save();
+
+                $this->command->getOutput()
+                    ->progressAdvance();
+            });;
 
         $this->command->getOutput()
             ->progressFinish();
