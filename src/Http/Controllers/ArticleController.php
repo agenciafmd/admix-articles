@@ -2,10 +2,11 @@
 
 namespace Agenciafmd\Articles\Http\Controllers;
 
-use Agenciafmd\Articles\Article;
+use Agenciafmd\Articles\Models\Article;
 use Agenciafmd\Articles\Http\Requests\ArticleRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class ArticleController extends Controller
@@ -17,7 +18,10 @@ class ArticleController extends Controller
         $query = QueryBuilder::for(Article::class)
             ->defaultSorts(config('admix-articles.default_sort'))
             ->allowedSorts($request->sort)
-            ->allowedFilters((($request->filter) ? array_keys($request->get('filter')) : []));
+            ->allowedFilters(array_merge((($request->filter) ? array_keys(array_diff_key($request->filter, array_flip(['id', 'is_active']))) : []), [
+                AllowedFilter::exact('id'),
+                AllowedFilter::exact('is_active'),
+            ]));
 
         if ($request->is('*/trash')) {
             $query->onlyTrashed();

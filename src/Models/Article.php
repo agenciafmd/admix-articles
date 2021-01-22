@@ -1,29 +1,24 @@
 <?php
 
-namespace Agenciafmd\Articles;
+namespace Agenciafmd\Articles\Models;
 
-use Agenciafmd\Admix\MediaTrait;
-use Agenciafmd\Admix\TurboTrait;
+use Database\Factories\ArticleFactory;
+use Agenciafmd\Media\Traits\MediaTrait;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
-use Spatie\MediaLibrary\HasMedia\HasMedia;
-use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\Models\Media;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
 
 class Article extends Model implements AuditableContract, HasMedia, Searchable
 {
-    use SoftDeletes,
-        Auditable,
-        HasMediaTrait,
-        TurboTrait,
-        MediaTrait {
-        MediaTrait::registerMediaConversions insteadof HasMediaTrait;
-    }
+    use SoftDeletes, HasFactory, Auditable, MediaTrait;
 
     protected $guarded = [
         'media',
@@ -108,5 +103,10 @@ class Article extends Model implements AuditableContract, HasMedia, Searchable
         foreach ($sorts as $sort) {
             $query->orderBy($sort['field'], $sort['direction']);
         }
+    }
+
+    protected static function newFactory()
+    {
+        return ArticleFactory::new();
     }
 }

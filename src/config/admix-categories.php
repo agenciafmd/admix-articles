@@ -8,7 +8,7 @@ return [
         'sort' => 20,
         'default_sort' => [
             '-is_active',
-            '-sort',
+            'sort',
             'name',
         ],
         'items' => false,

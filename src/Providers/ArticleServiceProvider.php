@@ -2,8 +2,8 @@
 
 namespace Agenciafmd\Articles\Providers;
 
-use Agenciafmd\Articles\Article;
-use Agenciafmd\Articles\Category;
+use Agenciafmd\Articles\Models\Article;
+use Agenciafmd\Articles\Models\Category;
 use Illuminate\Support\ServiceProvider;
 
 class ArticleServiceProvider extends ServiceProvider
@@ -12,38 +12,23 @@ class ArticleServiceProvider extends ServiceProvider
     {
         $this->providers();
 
-        $this->setMenu();
-
         $this->setSearch();
-
-        $this->loadViews();
 
         $this->loadMigrations();
 
-        $this->loadTranslations();
-
-        $this->loadViewComposer();
-
         $this->publish();
+    }
 
-        if ($this->app->environment('local') && $this->app->runningInConsole()) {
-            $this->setLocalFactories();
-        }
+    public function register()
+    {
+        $this->loadConfigs();
     }
 
     protected function providers()
     {
-        $this->app->register(RouteServiceProvider::class);
         $this->app->register(AuthServiceProvider::class);
-    }
-
-    protected function setMenu()
-    {
-        $this->app->make('admix-menu')
-            ->push((object)[
-                'view' => config('admix-articles.category') ? 'agenciafmd/articles::partials.menus.category-item' : 'agenciafmd/articles::partials.menus.item',
-                'ord' => config('admix-articles.sort', 1),
-            ]);
+        $this->app->register(BladeServiceProvider::class);
+        $this->app->register(RouteServiceProvider::class);
     }
 
     protected function setSearch()
@@ -53,48 +38,34 @@ class ArticleServiceProvider extends ServiceProvider
             ->registerModel(Category::class, 'name');
     }
 
-    protected function loadViews()
-    {
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'agenciafmd/articles');
-    }
-
     protected function loadMigrations()
     {
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
     }
 
-    protected function loadTranslations()
-    {
-        $this->loadJsonTranslationsFrom(__DIR__ . '/../resources/lang');
-    }
-
-    protected function loadViewComposer()
-    {
-        //
-    }
-
     protected function publish()
     {
-        $this->publishes([
-            __DIR__ . '/../resources/views' => base_path('resources/views/vendor/agenciafmd/articles'),
-        ], 'views');
-
         $this->publishes([
             __DIR__ . '/../config/admix-articles.php' => config_path('admix-articles.php'),
             __DIR__ . '/../config/admix-categories.php' => config_path('admix-categories.php'),
             __DIR__ . '/../config/upload-configs.php' => config_path('upload-configs.php'),
-        ], 'configs');
-    }
+        ], 'admix-articles:configs');
 
-    public function setLocalFactories()
-    {
-        $this->app->make('Illuminate\Database\Eloquent\Factory')
-            ->load(__DIR__ . '/../database/factories');
-    }
 
-    public function register()
-    {
-        $this->loadConfigs();
+        $factoriesAndSeeders[__DIR__ . '/../database/factories/ArticleFactory.php.stub'] = base_path('database/factories/ArticleFactory.php');
+        $factoriesAndSeeders[__DIR__ . '/../database/seeders/ArticlesTableSeeder.php.stub'] = base_path('database/seeders/ArticlesTableSeeder.php');
+        $factoriesAndSeeders[__DIR__ . '/../database/faker/articles/image'] = base_path('database/faker/articles/image');
+
+        if (config('admix-articles.downloads')) {
+            $factoriesAndSeeders[__DIR__ . '/../database/faker/articles/downloads'] = base_path('database/faker/articles/downloads');
+        }
+
+        if (config('admix-articles.category')) {
+            $factoriesAndSeeders[__DIR__ . '/../database/factories/ArticleCategoryFactory.php.stub'] = base_path('database/factories/ArticleCategoryFactory.php');
+            $factoriesAndSeeders[__DIR__ . '/../database/seeders/ArticlesCategoriesTableSeeder.php.stub'] = base_path('database/seeders/ArticlesCategoriesTableSeeder.php');
+        }
+
+        $this->publishes($factoriesAndSeeders, 'admix-articles:seeds');
     }
 
     protected function loadConfigs()

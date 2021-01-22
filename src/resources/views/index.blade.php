@@ -13,10 +13,10 @@
     @if(request()->is('*/trash'))
         @include('agenciafmd/admix::partials.btn.back', ['url' => route('admix.articles.index')])
     @else
-        @can('create', '\Agenciafmd\Articles\Article')
+        @can('create', \Agenciafmd\Articles\Models\Article::class)
             @include('agenciafmd/admix::partials.btn.create', ['url' => route('admix.articles.create'), 'label' => config('admix-articles.name')])
         @endcan
-        @can('restore', '\Agenciafmd\Articles\Article')
+        @can('restore', \Agenciafmd\Articles\Models\Article::class)
             @include('agenciafmd/admix::partials.btn.trash', ['url' => route('admix.articles.trash')])
         @endcan
     @endif
@@ -24,11 +24,11 @@
 
 @section('batch')
     @if(request()->is('*/trash'))
-        @can('restore', '\Agenciafmd\Articles\Article')
+        @can('restore', \Agenciafmd\Articles\Models\Article::class)
             {{ Form::select('batch', ['' => 'com os selecionados', route('admix.articles.batchRestore') => '- restaurar'], null, ['class' => 'js-batch-select form-control custom-select']) }}
         @endcan
     @else
-        @can('delete', '\Agenciafmd\Articles\Article')
+        @can('delete', \Agenciafmd\Articles\Models\Article::class)
             {{ Form::select('batch', ['' => 'com os selecionados', route('admix.articles.batchDestroy') => '- remover'], null, ['class' => 'js-batch-select form-control custom-select']) }}
         @endcan
     @endif
@@ -65,7 +65,7 @@
                     <th class="w-1">{!! column_sort('#', 'id') !!}</th>
                     <th>{!! column_sort('Nome', 'name') !!}</th>
                     <th>{!! column_sort('Destaque', 'star') !!}</th>
-                    <th>{!! column_sort('Status', 'is_active') !!}</th>
+                    <th class="w-1">{!! column_sort('Ativo', 'is_active') !!}</th>
                     <th></th>
                 </tr>
                 </thead>
@@ -85,7 +85,7 @@
                             @include('agenciafmd/admix::partials.label.star', ['star' => $item->star])
                         </td>
                         <td>
-                            @include('agenciafmd/admix::partials.label.status', ['status' => $item->is_active])
+                            @livewire('admix::is-active', ['myModel' => get_class($item), 'myId' => $item->id])
                         </td>
                         @if(request()->is('*/trash'))
                             <td class="w-1 text-right">
@@ -98,11 +98,10 @@
                                         <i class="icon fe-more-vertical text-muted"></i>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right">
-                                        @include('agenciafmd/admix::partials.btn.show', ['url' => route('admix.articles.show', $item->id)])
-                                        @can('update', '\Agenciafmd\Articles\Article')
+                                        @can('update', \Agenciafmd\Articles\Models\Article::class)
                                             @include('agenciafmd/admix::partials.btn.edit', ['url' => route('admix.articles.edit', $item->id)])
                                         @endcan
-                                        @can('delete', '\Agenciafmd\Articles\Article')
+                                        @can('delete', \Agenciafmd\Articles\Models\Article::class)
                                             @include('agenciafmd/admix::partials.btn.remove', ['url' => route('admix.articles.destroy', $item->id)])
                                         @endcan
                                     </div>

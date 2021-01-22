@@ -1,8 +1,11 @@
-@if (!((admix_cannot('view', '\Agenciafmd\Articles\Article')) && (admix_cannot('view', '\Agenciafmd\Articles\Category'))))
+@can('view', [
+    \Agenciafmd\Articles\Models\Category::class,
+    \Agenciafmd\Articles\Models\Article::class,
+])
     <li class="nav-item">
-        <a class="nav-link @if (admix_is_active(route('admix.articles.index')) || admix_is_active(route('admix.articles.categories.index'))) active @endif"
+        <a class="nav-link {{ (Str::startsWith(request()->route()->getName(), 'admix.articles')) ? 'active' : '' }}"
            href="#sidebar-articles" data-toggle="collapse" data-parent="#menu" role="button"
-           aria-expanded="{{ (admix_is_active(route('admix.articles.index')) || admix_is_active(route('admix.articles.categories.index'))) ? 'true' : 'false' }}">
+           aria-expanded="{{ (Str::startsWith(request()->route()->getName(), 'admix.articles')) ? 'true' : 'false' }}">
             <span class="nav-icon">
                 <i class="icon {{ config('admix-articles.icon') }}"></i>
             </span>
@@ -10,13 +13,12 @@
                 {{ config('admix-articles.name') }}
             </span>
         </a>
-        <div
-            class="navbar-subnav collapse @if (admix_is_active(route('admix.articles.index')) || admix_is_active(route('admix.articles.categories.index')) ) show @endif"
-            id="sidebar-articles">
+        <div class="navbar-subnav collapse {{ (Str::startsWith(request()->route()->getName(), 'admix.articles')) ? 'show' : '' }}"
+             id="sidebar-articles">
             <ul class="nav">
-                @can('view', '\Agenciafmd\Articles\Category')
+                @can('view', \Agenciafmd\Articles\Models\Category::class)
                     <li class="nav-item">
-                        <a class="nav-link {{ admix_is_active(route('admix.articles.categories.index')) ? 'active' : '' }}"
+                        <a class="nav-link {{ (Str::startsWith(request()->route()->getName(), 'admix.articles.categories')) ? 'active' : '' }}"
                            href="{{ route('admix.articles.categories.index') }}">
                             <span class="nav-icon">
                                 <i class="icon fe-minus"></i>
@@ -27,9 +29,9 @@
                         </a>
                     </li>
                 @endcan
-                @can('view', '\Agenciafmd\Articles\Article')
+                @can('view', \Agenciafmd\Articles\Models\Article::class)
                     <li class="nav-item">
-                        <a class="nav-link {{ admix_is_active(route('admix.articles.index')) ? 'active' : '' }}"
+                        <a class="nav-link {{ (Str::startsWith(request()->route()->getName(), 'admix.articles') && !Str::startsWith(request()->route()->getName(), 'admix.articles.categories')) ? 'active' : '' }}"
                            href="{{ route('admix.articles.index') }}">
                             <span class="nav-icon">
                                 <i class="icon fe-minus"></i>

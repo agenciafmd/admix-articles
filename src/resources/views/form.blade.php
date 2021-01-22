@@ -8,15 +8,11 @@
                 Criar
             @elseif(request()->is('*/edit'))
                 Editar
-            @else
-                Visualizar
             @endif
             {{ config('admix-articles.name') }}
         </h3>
         <div class="card-options">
-            @if(strpos(request()->route()->getName(), 'show') === false)
-                @include('agenciafmd/admix::partials.btn.save')
-            @endif
+            @include('agenciafmd/admix::partials.btn.save')
         </div>
     </div>
     <ul class="list-group list-group-flush">
@@ -53,9 +49,9 @@
         @endif
 
         @if(config('admix-articles.wysiwyg'))
-            {{ Form::bsTextarea('Descrição', 'description', null) }}
+            {{ Form::bsWysiwyg('Descrição', 'description', null) }}
         @else
-            {{ Form::bsTextareaPlain('Descrição', 'description', null) }}
+            {{ Form::bsTextarea('Descrição', 'description', null) }}
         @endif
 
         @if(config('admix-articles.video'))
@@ -70,21 +66,18 @@
             {{ Form::bsMedias('Downloads', 'downloads', $model) }}
         @endif
 
-        @foreach(config('upload-configs.article') as $key => $image)
-            @if($image['multiple'])
-                {{ Form::bsImages($image['name'], $key, $model) }}
+        @foreach(config('upload-configs.article') as $field => $upload)
+            @if($upload['multiple'])
+                {{ Form::bsImages($upload['label'], $field, $model) }}
             @else
-                {{ Form::bsImage($image['name'], $key, $model) }}
+                {{ Form::bsImage($upload['label'], $field, $model) }}
             @endif
         @endforeach
     </ul>
     <div class="card-footer bg-gray-lightest text-right">
         <div class="d-flex">
             @include('agenciafmd/admix::partials.btn.back')
-
-            @if(strpos(request()->route()->getName(), 'show') === false)
-                @include('agenciafmd/admix::partials.btn.save')
-            @endif
+            @include('agenciafmd/admix::partials.btn.save')
         </div>
     </div>
     {{ Form::close() }}

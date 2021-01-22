@@ -2,7 +2,7 @@
 
 return [
     [
-        'name' => 'Artigos » Categorias',
+        'name' => config('admix-articles.name') . ' » ' . config('admix-categories.articles-categories.name'),
         'policy' => '\Agenciafmd\Articles\Policies\CategoryPolicy',
         'abilities' => [
             [
@@ -29,7 +29,7 @@ return [
         'sort' => 9,
     ],
     [
-        'name' => 'Artigos',
+        'name' => config('admix-articles.name'),
         'policy' => '\Agenciafmd\Articles\Policies\ArticlePolicy',
         'abilities' => [
             [

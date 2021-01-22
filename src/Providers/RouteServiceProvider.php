@@ -7,31 +7,16 @@ use Illuminate\Support\Facades\Route;
 
 class RouteServiceProvider extends ServiceProvider
 {
-    protected $namespace = 'Agenciafmd\Articles\Http\Controllers';
-
     public function boot()
     {
-        parent::boot();
-    }
+        $this->routes(function () {
+            Route::prefix(config('admix.url'))
+                ->middleware(['web', 'auth:admix-web'])
+                ->group(__DIR__ . '/../routes/web.php');
 
-    public function map()
-    {
-        $this->mapApiRoutes();
-
-        $this->mapWebRoutes();
-    }
-
-    protected function mapApiRoutes()
-    {
-        Route::middleware('api')
-            ->namespace($this->namespace)
-            ->group(__DIR__ . '/../routes/api.php');
-    }
-
-    protected function mapWebRoutes()
-    {
-        Route::middleware('web')
-            ->namespace($this->namespace)
-            ->group(__DIR__ . '/../routes/web.php');
+            Route::prefix(config('admix.url') . '/api')
+                ->middleware('api')
+                ->group(__DIR__ . '/../routes/api.php');
+        });
     }
 }

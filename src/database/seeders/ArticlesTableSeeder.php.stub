@@ -1,35 +1,31 @@
 <?php
 
-use Agenciafmd\Articles\Article;
-use Agenciafmd\Articles\Category;
+namespace Database\Seeders;
+
+use Agenciafmd\Articles\Models\Article;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use Faker\Factory;
 
 class ArticlesTableSeeder extends Seeder
 {
-    protected $total = 50;
+    protected int $total = 20;
 
     public function run()
     {
-        Article::withTrashed()
-            ->get()->each->forceDelete();
-
-        DB::table('media')
-            ->where('model_type', 'Agenciafmd\\Articles\\Article')
-            ->delete();
-
-        $faker = Faker\Factory::create('pt_BR');
-
-        $categories = Category::pluck('id');
+        Article::query()
+            ->truncate();
 
         $this->command->getOutput()
             ->progressStart($this->total);
-        factory(Article::class, $this->total)
+
+        $faker = Factory::create('pt_BR');
+
+        Article::factory($this->total)
             ->create()
-            ->each(function ($article) use ($faker, $categories) {
+            ->each(function ($article) use ($faker) {
 
                 foreach (config('upload-configs.article') as $key => $image) {
-                    $fakerDir = __DIR__ . '/../faker/' . $key;
+                    $fakerDir = __DIR__ . '/../faker/articles/' . $key;
 
                     if ($image['faker_dir']) {
                         $fakerDir = $image['faker_dir'];
@@ -45,17 +41,17 @@ class ArticlesTableSeeder extends Seeder
                     }
                 }
 
-                if (config('admix-articles.download')) {
-                    $article->doUpload($faker->file(__DIR__ . '/../faker/download', storage_path('admix/tmp')), 'download');
+                /* TODO: verificar o upload de arquivos */
+                if (config('admix-articles.downloads')) {
+                    $article->doUploadMultiple($faker->file(__DIR__ . '/../faker/articles/downloads', storage_path('admix/tmp')), 'downloads');
                 }
-
-                $article->category_id = ($faker->randomElement($categories)) ?? 0;
 
                 $article->save();
 
                 $this->command->getOutput()
-                    ->progressAdvance();
+                  ->progressAdvance();
             });
+
         $this->command->getOutput()
             ->progressFinish();
     }

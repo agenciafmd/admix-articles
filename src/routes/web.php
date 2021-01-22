@@ -1,87 +1,73 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| ADMIX Routes
-|--------------------------------------------------------------------------
-*/
+use Agenciafmd\Articles\Http\Controllers\ArticleController;
+use Agenciafmd\Categories\Http\Controllers\CategoryController;
+use Agenciafmd\Articles\Models\Article;
+use Agenciafmd\Articles\Models\Category;
 
 if (config('admix-articles.category')) {
-    Route::prefix(config('admix.url') . '/articles/categories')
-        ->name('admix.articles.categories.')
-        ->middleware(['auth:admix-web'])
-        ->group(function () {
-            Route::get('', '\Agenciafmd\Categories\Http\Controllers\CategoryController@index')
-                ->name('index')
-                ->middleware('can:view,\Agenciafmd\Articles\Category');
-            Route::get('trash', '\Agenciafmd\Categories\Http\Controllers\CategoryController@index')
-                ->name('trash')
-                ->middleware('can:restore,\Agenciafmd\Articles\Category');
-            Route::get('create', '\Agenciafmd\Categories\Http\Controllers\CategoryController@create')
-                ->name('create')
-                ->middleware('can:create,\Agenciafmd\Articles\Category');
-            Route::post('', '\Agenciafmd\Categories\Http\Controllers\CategoryController@store')
-                ->name('store')
-                ->middleware('can:create,\Agenciafmd\Articles\Category');
-            Route::get('{category}', '\Agenciafmd\Categories\Http\Controllers\CategoryController@show')
-                ->name('show')
-                ->middleware('can:view,\Agenciafmd\Articles\Category');
-            Route::get('{category}/edit', '\Agenciafmd\Categories\Http\Controllers\CategoryController@edit')
-                ->name('edit')
-                ->middleware('can:update,\Agenciafmd\Articles\Category');
-            Route::put('{category}', '\Agenciafmd\Categories\Http\Controllers\CategoryController@update')
-                ->name('update')
-                ->middleware('can:update,\Agenciafmd\Articles\Category');
-            Route::delete('destroy/{category}', '\Agenciafmd\Categories\Http\Controllers\CategoryController@destroy')
-                ->name('destroy')
-                ->middleware('can:delete,\Agenciafmd\Articles\Category');
-            Route::post('{id}/restore', '\Agenciafmd\Categories\Http\Controllers\CategoryController@restore')
-                ->name('restore')
-                ->middleware('can:restore,\Agenciafmd\Articles\Category');
-            Route::post('batchDestroy', '\Agenciafmd\Categories\Http\Controllers\CategoryController@batchDestroy')
-                ->name('batchDestroy')
-                ->middleware('can:delete,\Agenciafmd\Articles\Category');
-            Route::post('batchRestore', '\Agenciafmd\Categories\Http\Controllers\CategoryController@batchRestore')
-                ->name('batchRestore')
-                ->middleware('can:restore,\Agenciafmd\Articles\Category');
-        });
+    Route::get('articles/categories', [CategoryController::class, 'index'])
+        ->name('admix.articles.categories.index')
+        ->middleware('can:view,' . Category::class);
+    Route::get('articles/categories/trash', [CategoryController::class, 'index'])
+        ->name('admix.articles.categories.trash')
+        ->middleware('can:restore,' . Category::class);
+    Route::get('articles/categories/create', [CategoryController::class, 'create'])
+        ->name('admix.articles.categories.create')
+        ->middleware('can:create,' . Category::class);
+    Route::post('articles/categories', [CategoryController::class, 'store'])
+        ->name('admix.articles.categories.store')
+        ->middleware('can:create,' . Category::class);
+    Route::get('articles/categories/{category}', [CategoryController::class, 'show'])
+        ->name('admix.articles.categories.show')
+        ->middleware('can:view,' . Category::class);
+    Route::get('articles/categories/{category}/edit', [CategoryController::class, 'edit'])
+        ->name('admix.articles.categories.edit')
+        ->middleware('can:update,' . Category::class);
+    Route::put('articles/categories/{category}', [CategoryController::class, 'update'])
+        ->name('admix.articles.categories.update')
+        ->middleware('can:update,' . Category::class);
+    Route::delete('articles/categories/destroy/{category}', [CategoryController::class, 'destroy'])
+        ->name('admix.articles.categories.destroy')
+        ->middleware('can:delete,' . Category::class);
+    Route::post('articles/categories/{id}/restore', [CategoryController::class, 'restore'])
+        ->name('admix.articles.categories.restore')
+        ->middleware('can:restore,' . Category::class);
+    Route::post('articles/categories/batchDestroy', [CategoryController::class, 'batchDestroy'])
+        ->name('admix.articles.categories.batchDestroy')
+        ->middleware('can:delete,' . Category::class);
+    Route::post('articles/categories/batchRestore', [CategoryController::class, 'batchRestore'])
+        ->name('admix.articles.categories.batchRestore')
+        ->middleware('can:restore,' . Category::class);
 }
 
-Route::prefix(config('admix.url') . '/articles')
-    ->name('admix.articles.')
-    ->middleware(['auth:admix-web'])
-    ->group(function () {
-        Route::get('', 'ArticleController@index')
-            ->name('index')
-            ->middleware('can:view,\Agenciafmd\Articles\Article');
-        Route::get('trash', 'ArticleController@index')
-            ->name('trash')
-            ->middleware('can:restore,\Agenciafmd\Articles\Article');
-        Route::get('create', 'ArticleController@create')
-            ->name('create')
-            ->middleware('can:create,\Agenciafmd\Articles\Article');
-        Route::post('', 'ArticleController@store')
-            ->name('store')
-            ->middleware('can:create,\Agenciafmd\Articles\Article');
-        Route::get('{article}', 'ArticleController@show')
-            ->name('show')
-            ->middleware('can:view,\Agenciafmd\Articles\Article');
-        Route::get('{article}/edit', 'ArticleController@edit')
-            ->name('edit')
-            ->middleware('can:update,\Agenciafmd\Articles\Article');
-        Route::put('{article}', 'ArticleController@update')
-            ->name('update')
-            ->middleware('can:update,\Agenciafmd\Articles\Article');
-        Route::delete('destroy/{article}', 'ArticleController@destroy')
-            ->name('destroy')
-            ->middleware('can:delete,\Agenciafmd\Articles\Article');
-        Route::post('{id}/restore', 'ArticleController@restore')
-            ->name('restore')
-            ->middleware('can:restore,\Agenciafmd\Articles\Article');
-        Route::post('batchDestroy', 'ArticleController@batchDestroy')
-            ->name('batchDestroy')
-            ->middleware('can:delete,\Agenciafmd\Articles\Article');
-        Route::post('batchRestore', 'ArticleController@batchRestore')
-            ->name('batchRestore')
-            ->middleware('can:restore,\Agenciafmd\Articles\Article');
-    });
+Route::get('articles', [ArticleController::class, 'index'])
+    ->name('admix.articles.index')
+    ->middleware('can:view,' . Article::class);
+Route::get('articles/trash', [ArticleController::class, 'index'])
+    ->name('admix.articles.trash')
+    ->middleware('can:restore,' . Article::class);
+Route::get('articles/create', [ArticleController::class, 'create'])
+    ->name('admix.articles.create')
+    ->middleware('can:create,' . Article::class);
+Route::post('articles', [ArticleController::class, 'store'])
+    ->name('admix.articles.store')
+    ->middleware('can:create,' . Article::class);
+Route::get('articles/{article}/edit', [ArticleController::class, 'edit'])
+    ->name('admix.articles.edit')
+    ->middleware('can:update,' . Article::class);
+Route::put('articles/{article}', [ArticleController::class, 'update'])
+    ->name('admix.articles.update')
+    ->middleware('can:update,' . Article::class);
+Route::delete('articles/destroy/{article}', [ArticleController::class, 'destroy'])
+    ->name('admix.articles.destroy')
+    ->middleware('can:delete,' . Article::class);
+Route::post('articles/{id}/restore', [ArticleController::class, 'restore'])
+    ->name('admix.articles.restore')
+    ->middleware('can:restore,' . Article::class);
+Route::post('articles/batchDestroy', [ArticleController::class, 'batchDestroy'])
+    ->name('admix.articles.batchDestroy')
+    ->middleware('can:delete,' . Article::class);
+Route::post('articles/batchRestore', [ArticleController::class, 'batchRestore'])
+    ->name('admix.articles.batchRestore')
+    ->middleware('can:restore,' . Article::class);
