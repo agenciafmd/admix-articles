@@ -13,20 +13,23 @@
 composer require agenciafmd/admix-articles:dev-master
 ```
 
+Execute a migração
+
+```bash
+php artisan migrate
+```
+
+Se precisar do seed, faça a publicação
+
+```bash
+php artisan vendor:publish --tag=admix-articles:seeds
+```
+
+**não esqueça do `composer dumpautoload`**
+
 ## Configuração
 
-TODO: Explicar a configuração da categoria
-
-## Uso
-
-TODO: Exemplificar o uso
-
-## Customização
-
-Para customizar as configurações do pacote, publique os arquivos de configuração usando:
-```
-php artisan vendor:publish --provider="Agenciafmd\Articles\Providers\ArticleServiceProvider" --tag configs
-```
+Por padrão, as configurações do pacote são:
 
 ```php
 <?php
@@ -41,15 +44,23 @@ return [
         '-published_at',
         'name',
     ],
-    'wysiwyg' => true,
-    'category' => true,
+    'category' => false,
+    'wysiwyg' => false,
     'call' => false,
     'short_description' => false,
     'video' => false,
-    'published_at' => false,
+    'published_at' => true,
     'download' => false,
 ];
 ```
+
+Se for preciso, você pode customizar estas configurações
+
+```bash
+php artisan vendor:publish --tag=admix-articles:config
+```
+
+**caso tenha habilitado as categorias, é importante republicar os seeds**
 
 Para as imagens, faça a mesclagem do `/vendor/agenciafmd/admix-articles/src/config/upload-configs.php` na sua aplicação
 
@@ -58,27 +69,46 @@ Para as imagens, faça a mesclagem do `/vendor/agenciafmd/admix-articles/src/con
 
 return [
     'article' => [
-        'image' => [
-            'name' => 'Imagem',
+        'image' => [ //nome do campo
+            'label' => 'imagem', //label do campo
+            'multiple' => false, //se permite o upload multiplo
             'faker_dir' => false, #database_path('faker/articles/image'),
-            'multiple' => false,
-            'width' => 800,
-            'height' => 600,
-            'quality' => 95,
-            'optimize' => true,
-            'crop' => true,
+            'sources' => [
+                [
+                    'conversion' => 'min-width-1366',
+                    'media' => '(min-width: 1366px)',
+                    'width' => 1024, // 16:9
+                    'height' => 576,
+                ],
+                [
+                    'conversion' => 'min-width-1280',
+                    'media' => '(min-width: 1280px)',
+                    'width' => 776,
+                    'height' => 437,
+                ],
+            ],
         ],
-        ...
-        'avatar' => [
-            'name' => 'Imagem',
-            'faker_dir' => false, #database_path('faker/articles/avatar'),
-            'multiple' => false,
-            'width' => 200,
-            'height' => 200,
-            'quality' => 95,
-            'optimize' => true,
-            'crop' => true,
-        ],
+    ],
+    'articles-categories' => [
+//        'image' => [ //nome do campo
+//            'label' => 'imagem', //label do campo
+//            'multiple' => false, //se permite o upload multiplo
+//            'faker_dir' => false, #database_path('faker/articles-categories/image'),
+//            'sources' => [
+//                [
+//                    'conversion' => 'min-width-1366',
+//                    'media' => '(min-width: 1366px)',
+//                    'width' => 1024, // 16:9
+//                    'height' => 576,
+//                ],
+//                [
+//                    'conversion' => 'min-width-1280',
+//                    'media' => '(min-width: 1280px)',
+//                    'width' => 776,
+//                    'height' => 437,
+//                ],
+//            ],
+//        ],
     ],
 ];
 ```

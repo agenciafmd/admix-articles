@@ -5,7 +5,7 @@ return [
         'image' => [ //nome do campo
             'label' => 'imagem', //label do campo
             'multiple' => false, //se permite o upload multiplo
-            'faker_dir' => false, #database_path('faker/faqs-categories/image'),
+            'faker_dir' => false, #database_path('faker/articles/image'),
             'sources' => [
                 [
                     'conversion' => 'min-width-1366',
@@ -26,7 +26,7 @@ return [
 //        'image' => [ //nome do campo
 //            'label' => 'imagem', //label do campo
 //            'multiple' => false, //se permite o upload multiplo
-//            'faker_dir' => false, #database_path('faker/faqs-categories/image'),
+//            'faker_dir' => false, #database_path('faker/articles-categories/image'),
 //            'sources' => [
 //                [
 //                    'conversion' => 'min-width-1366',
