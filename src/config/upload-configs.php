@@ -5,7 +5,7 @@ return [
         'image' => [ //nome do campo
             'label' => 'imagem', //label do campo
             'multiple' => false, //se permite o upload multiplo
-            'faker_dir' => false, #database_path('faker/articles/image'),
+            'faker_dir' => false, #database_path('faker/article/image'),
             'sources' => [
                 [
                     'conversion' => 'min-width-1366',

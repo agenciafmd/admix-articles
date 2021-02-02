@@ -54,10 +54,10 @@ class ArticleServiceProvider extends ServiceProvider
 
         $factoriesAndSeeders[__DIR__ . '/../database/factories/ArticleFactory.php.stub'] = base_path('database/factories/ArticleFactory.php');
         $factoriesAndSeeders[__DIR__ . '/../database/seeders/ArticlesTableSeeder.php.stub'] = base_path('database/seeders/ArticlesTableSeeder.php');
-        $factoriesAndSeeders[__DIR__ . '/../database/faker/articles/image'] = base_path('database/faker/articles/image');
+        $factoriesAndSeeders[__DIR__ . '/../database/faker/article/image'] = base_path('database/faker/article/image');
 
         if (config('admix-articles.downloads')) {
-            $factoriesAndSeeders[__DIR__ . '/../database/faker/articles/downloads'] = base_path('database/faker/articles/downloads');
+            $factoriesAndSeeders[__DIR__ . '/../database/faker/article/downloads'] = base_path('database/faker/article/downloads');
         }
 
         if (config('admix-articles.category')) {

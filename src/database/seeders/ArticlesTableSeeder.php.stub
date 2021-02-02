@@ -25,7 +25,7 @@ class ArticlesTableSeeder extends Seeder
             ->each(function ($article) use ($faker) {
 
                 foreach (config('upload-configs.article') as $key => $image) {
-                    $fakerDir = __DIR__ . '/../faker/articles/' . $key;
+                    $fakerDir = __DIR__ . '/../faker/article/' . $key;
 
                     if ($image['faker_dir']) {
                         $fakerDir = $image['faker_dir'];
@@ -43,7 +43,7 @@ class ArticlesTableSeeder extends Seeder
 
                 /* TODO: verificar o upload de arquivos */
                 if (config('admix-articles.downloads')) {
-                    $article->doUploadMultiple($faker->file(__DIR__ . '/../faker/articles/downloads', storage_path('admix/tmp')), 'downloads');
+                    $article->doUploadMultiple($faker->file(__DIR__ . '/../faker/article/downloads', storage_path('admix/tmp')), 'downloads');
                 }
 
                 $article->save();
