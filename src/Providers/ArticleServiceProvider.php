@@ -65,7 +65,7 @@ class ArticleServiceProvider extends ServiceProvider
             $factoriesAndSeeders[__DIR__ . '/../database/seeders/ArticlesCategoriesTableSeeder.php.stub'] = base_path('database/seeders/ArticlesCategoriesTableSeeder.php');
         }
 
-        $this->publishes($factoriesAndSeeders, 'admix-articles:seeds');
+        $this->publishes($factoriesAndSeeders, 'admix-articles:seeders');
     }
 
     protected function loadConfigs()
