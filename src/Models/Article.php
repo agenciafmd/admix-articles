@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Str;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 use Spatie\MediaLibrary\HasMedia;
@@ -44,15 +43,6 @@ class Article extends Model implements AuditableContract, HasMedia, Searchable
             "{$this->name}",
             route('admix.articles.edit', $this->id)
         );
-    }
-
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::saving(function ($model) {
-            $model->slug = Str::slug($model->name);
-        });
     }
 
     public function category()

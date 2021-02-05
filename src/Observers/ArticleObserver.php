@@ -5,9 +5,15 @@ namespace Agenciafmd\Articles\Observers;
 use Agenciafmd\Articles\Models\Article;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 
 class ArticleObserver
 {
+    public function saving(Article $model)
+    {
+        $model->slug = Str::slug($model->name);
+    }
+
     public function saved(Article $model)
     {
         if (!app()->runningInConsole()) {
