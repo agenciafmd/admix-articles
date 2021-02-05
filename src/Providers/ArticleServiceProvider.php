@@ -4,6 +4,7 @@ namespace Agenciafmd\Articles\Providers;
 
 use Agenciafmd\Articles\Models\Article;
 use Agenciafmd\Articles\Models\Category;
+use Agenciafmd\Articles\Observers\ArticleObserver;
 use Illuminate\Support\ServiceProvider;
 
 class ArticleServiceProvider extends ServiceProvider
@@ -11,6 +12,8 @@ class ArticleServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->providers();
+
+        $this->setObservers();
 
         $this->setSearch();
 
@@ -29,6 +32,11 @@ class ArticleServiceProvider extends ServiceProvider
         $this->app->register(AuthServiceProvider::class);
         $this->app->register(BladeServiceProvider::class);
         $this->app->register(RouteServiceProvider::class);
+    }
+
+    protected function setObservers()
+    {
+        Article::observe(ArticleObserver::class);
     }
 
     protected function setSearch()
