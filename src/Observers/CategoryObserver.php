@@ -22,7 +22,7 @@ class CategoryObserver
                 })
                     ->delay(now()->addSeconds(5))
                     ->onQueue('low');
-            } catch (\Exception $e) {
+            } catch (\Exception $exception) {
                 // não tem problema
             }
         }
