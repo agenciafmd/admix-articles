@@ -4,6 +4,7 @@ namespace Agenciafmd\Articles\Models;
 
 use Database\Factories\ArticleFactory;
 use Agenciafmd\Media\Traits\MediaTrait;
+use Agenciafmd\Admix\Traits\TurboTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -17,7 +18,7 @@ use Spatie\Searchable\SearchResult;
 
 class Article extends Model implements AuditableContract, HasMedia, Searchable
 {
-    use SoftDeletes, HasFactory, Auditable, MediaTrait;
+    use SoftDeletes, HasFactory, Auditable, MediaTrait, TurboTrait;
 
     protected $guarded = [
         'media',
