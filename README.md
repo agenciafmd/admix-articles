@@ -19,13 +19,13 @@ Execute a migração
 php artisan migrate
 ```
 
-Se precisar do seed, faça a publicação
+Os seeds funcionarão diretamente do pacote. Caso precise de alguma customização, faça a publicação.
+
+Não esqueça de corrigir os namespaces, paths das pastas e rodar o `composer dumpautoload` para que os arquivos sejam encontrados
 
 ```bash
 php artisan vendor:publish --tag=admix-articles:seeders
 ```
-
-**não esqueça do `composer dumpautoload`**
 
 ## Configuração
 
@@ -50,14 +50,14 @@ return [
     'short_description' => false,
     'video' => false,
     'published_at' => true,
-    'download' => false,
+    'downloads' => false,
 ];
 ```
 
 Se for preciso, você pode customizar estas configurações
 
 ```bash
-php artisan vendor:publish --tag=admix-articles:config
+php artisan vendor:publish --tag=admix-articles:configs
 ```
 
 **caso tenha habilitado as categorias, é importante republicar os seeds**

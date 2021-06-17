@@ -48,7 +48,7 @@ class ArticleServiceProvider extends ServiceProvider
 
     protected function loadMigrations()
     {
-        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+        $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
     }
 
     protected function publish()
@@ -60,17 +60,17 @@ class ArticleServiceProvider extends ServiceProvider
         ], 'admix-articles:configs');
 
 
-        $factoriesAndSeeders[__DIR__ . '/../database/factories/ArticleFactory.php.stub'] = base_path('database/factories/ArticleFactory.php');
-        $factoriesAndSeeders[__DIR__ . '/../database/seeders/ArticlesTableSeeder.php.stub'] = base_path('database/seeders/ArticlesTableSeeder.php');
-        $factoriesAndSeeders[__DIR__ . '/../database/faker/article/image'] = base_path('database/faker/article/image');
+        $factoriesAndSeeders[__DIR__ . '/../Database/Factories/ArticleFactory.php'] = base_path('database/factories/ArticleFactory.php');
+        $factoriesAndSeeders[__DIR__ . '/../Database/Seeders/ArticlesTableSeeder.php'] = base_path('database/seeders/ArticlesTableSeeder.php');
+        $factoriesAndSeeders[__DIR__ . '/../Database/Faker/articles/image'] = base_path('database/faker/articles/image');
 
         if (config('admix-articles.downloads')) {
-            $factoriesAndSeeders[__DIR__ . '/../database/faker/article/downloads'] = base_path('database/faker/article/downloads');
+            $factoriesAndSeeders[__DIR__ . '/../Database/Faker/articles/downloads'] = base_path('database/faker/articles/downloads');
         }
 
         if (config('admix-articles.category')) {
-            $factoriesAndSeeders[__DIR__ . '/../database/factories/ArticleCategoryFactory.php.stub'] = base_path('database/factories/ArticleCategoryFactory.php');
-            $factoriesAndSeeders[__DIR__ . '/../database/seeders/ArticlesCategoriesTableSeeder.php.stub'] = base_path('database/seeders/ArticlesCategoriesTableSeeder.php');
+            $factoriesAndSeeders[__DIR__ . '/../Database/Factories/ArticleCategoryFactory.php'] = base_path('database/factories/ArticleCategoryFactory.php');
+            $factoriesAndSeeders[__DIR__ . '/../Database/Seeders/ArticlesCategoriesTableSeeder.php'] = base_path('database/seeders/ArticlesCategoriesTableSeeder.php');
         }
 
         $this->publishes($factoriesAndSeeders, 'admix-articles:seeders');

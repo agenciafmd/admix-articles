@@ -2,7 +2,7 @@
 
 namespace Agenciafmd\Articles\Models;
 
-use Database\Factories\ArticleFactory;
+use Agenciafmd\Articles\Database\Factories\ArticleFactory;
 use Agenciafmd\Media\Traits\MediaTrait;
 use Agenciafmd\Admix\Traits\TurboTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -98,6 +98,10 @@ class Article extends Model implements AuditableContract, HasMedia, Searchable
 
     protected static function newFactory()
     {
+        if (class_exists(\Database\Seeders\ArticleFactory::class)) {
+            return \Database\Seeders\ArticleFactory::new();
+        }
+
         return ArticleFactory::new();
     }
 }

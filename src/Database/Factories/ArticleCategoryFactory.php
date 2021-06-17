@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories;
+namespace Agenciafmd\Articles\Database\Factories;
 
 use Agenciafmd\Articles\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;

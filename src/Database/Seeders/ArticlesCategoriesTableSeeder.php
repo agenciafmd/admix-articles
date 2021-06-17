@@ -1,10 +1,12 @@
 <?php
 
-namespace Database\Seeders;
+namespace Agenciafmd\Articles\Database\Seeders;
 
 use Agenciafmd\Articles\Models\Category;
 use Faker\Factory;
 use Illuminate\Database\Seeder;
+use Illuminate\Http\File as HttpFile;
+use Illuminate\Support\Facades\Storage;
 
 class ArticlesCategoriesTableSeeder extends Seeder
 {
@@ -38,8 +40,9 @@ class ArticlesCategoriesTableSeeder extends Seeder
         Category::factory($this->total)
             ->create()
             ->each(function ($category) use ($faker) {
+
                 foreach (config('upload-configs.articles-categories') as $key => $image) {
-                    $fakerDir = __DIR__ . '/../faker/articles-categories/' . $key;
+                    $fakerDir = __DIR__ . '/../Faker/articles-categories/' . $key;
 
                     if ($image['faker_dir']) {
                         $fakerDir = $image['faker_dir'];
@@ -48,10 +51,16 @@ class ArticlesCategoriesTableSeeder extends Seeder
                     if ($image['multiple']) {
                         $items = $faker->numberBetween(0, 6);
                         for ($i = 0; $i < $items; $i++) {
-                            $category->doUploadMultiple($faker->file($fakerDir, storage_path('admix/tmp')), $key);
+                            $sourceFile = $faker->file($fakerDir, storage_path('admix/tmp'));
+                            $targetFile = Storage::putFile('tmp', new HttpFile($sourceFile));
+
+                            $category->doUploadMultiple($targetFile, $key);
                         }
                     } else {
-                        $category->doUpload($faker->file($fakerDir, storage_path('admix/tmp')), $key);
+                        $sourceFile = $faker->file($fakerDir, storage_path('admix/tmp'));
+                        $targetFile = Storage::putFile('tmp', new HttpFile($sourceFile));
+
+                        $category->doUpload($targetFile, $key);
                     }
                 }
 

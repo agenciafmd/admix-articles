@@ -2,8 +2,8 @@
 
 namespace Agenciafmd\Articles\Models;
 
+use Agenciafmd\Articles\Database\Factories\ArticleCategoryFactory;
 use Agenciafmd\Categories\Models\Category as CategoryBase;
-use Database\Factories\ArticleCategoryFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Spatie\Searchable\Searchable;
@@ -60,6 +60,10 @@ class Category extends CategoryBase implements Searchable
 
     protected static function newFactory()
     {
+        if (class_exists(\Database\Seeders\ArticleCategoryFactory::class)) {
+            return \Database\Seeders\ArticleCategoryFactory::new();
+        }
+
         return ArticleCategoryFactory::new();
     }
 }
