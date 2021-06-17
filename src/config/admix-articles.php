@@ -10,7 +10,7 @@ return [
         '-published_at',
         'name',
     ],
-    'category' => true,
+    'category' => false,
     'wysiwyg' => false,
     'call' => false,
     'short_description' => false,
