@@ -24,8 +24,8 @@ class Article extends Model implements AuditableContract, HasMedia, Searchable
         'media',
     ];
 
-    protected $dates = [
-        'published_at',
+    protected $casts = [
+        'published_at' => 'datetime',
     ];
 
     public $searchableType;
