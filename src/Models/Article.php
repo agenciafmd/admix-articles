@@ -98,8 +98,8 @@ class Article extends Model implements AuditableContract, HasMedia, Searchable
 
     protected static function newFactory()
     {
-        if (class_exists(\Database\Seeders\ArticleFactory::class)) {
-            return \Database\Seeders\ArticleFactory::new();
+        if (class_exists(\Database\Factories\ArticleFactory::class)) {
+            return \Database\Factories\ArticleFactory::new();
         }
 
         return ArticleFactory::new();

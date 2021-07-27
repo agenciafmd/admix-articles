@@ -60,8 +60,8 @@ class Category extends CategoryBase implements Searchable
 
     protected static function newFactory()
     {
-        if (class_exists(\Database\Seeders\ArticleCategoryFactory::class)) {
-            return \Database\Seeders\ArticleCategoryFactory::new();
+        if (class_exists(\Database\Factories\ArticleCategoryFactory::class)) {
+            return \Database\Factories\ArticleCategoryFactory::new();
         }
 
         return ArticleCategoryFactory::new();
