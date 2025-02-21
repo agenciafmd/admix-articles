@@ -10,7 +10,7 @@
 ## Instalação
 
 ```bash
-composer require agenciafmd/admix-articles:v11.x-dev
+sail composer require agenciafmd/admix-articles:v11.x-dev
 ```
 
 Execute a migração
