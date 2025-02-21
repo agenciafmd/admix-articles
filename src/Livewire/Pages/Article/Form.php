@@ -133,7 +133,7 @@ class Form extends LivewireForm
 
         if (config('admix-articles.short_description')) {
             $rules['short_description'] = [
-                'required',
+                'nullable',
                 'max:255',
             ];
         }
