@@ -2,101 +2,60 @@
 
 namespace Agenciafmd\Articles\Models;
 
+use Agenciafmd\Admix\Traits\WithScopes;
+use Agenciafmd\Admix\Traits\WithSlug;
 use Agenciafmd\Articles\Database\Factories\ArticleFactory;
-use Agenciafmd\Media\Traits\MediaTrait;
-use Agenciafmd\Admix\Traits\TurboTrait;
+use Agenciafmd\Ui\Casts\AsMediaLibrary;
+use Agenciafmd\Ui\Casts\AsSingleMediaLibrary;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Carbon;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\Models\Media;
-use Spatie\Searchable\Searchable;
-use Spatie\Searchable\SearchResult;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Article extends Model implements AuditableContract, HasMedia, Searchable
+class Article extends Model implements AuditableContract, HasMedia
 {
-    use SoftDeletes, HasFactory, Auditable, MediaTrait, TurboTrait;
+    use Auditable, HasFactory, InteractsWithMedia, Prunable, SoftDeletes, WithScopes, WithSlug;
 
-    protected $guarded = [
-        'media',
+    protected $fillable = [
+        'is_active',
+        'star',
+        'name',
+        'author',
+        'call',
+        'short_description',
+        'video',
+        'description',
+        'published_at',
+        'sort',
     ];
 
     protected $casts = [
+        'is_active' => 'boolean',
+        'star' => 'boolean',
         'published_at' => 'datetime',
+        'image' => AsSingleMediaLibrary::class,
+        'gallery' => AsMediaLibrary::class,
     ];
 
-    public $searchableType;
+    protected array $defaultSort = [
+        'is_active' => 'desc',
+        'star' => 'desc',
+        'sort' => 'asc',
+        'published_at' => 'desc',
+        'name' => 'asc',
+    ];
 
-    public function __construct(array $attributes = [])
+    public function prunable(): Builder
     {
-        parent::__construct($attributes);
-
-        $this->searchableType = config('admix-articles.name');
+        return self::where('deleted_at', '<=', now()->subYear());
     }
 
-    public function getSearchResult(): SearchResult
-    {
-        return new SearchResult(
-            $this,
-            "{$this->name}",
-            route('admix.articles.edit', $this->id)
-        );
-    }
-
-    public function category()
-    {
-        if (config('admix-articles.category')) {
-            return $this->belongsTo(Category::class);
-        }
-
-        return null;
-    }
-
-    public function getUrlAttribute()
-    {
-        if (config('admix-articles.category')) {
-            return route('frontend.articles.show', [
-                $this->category->slug, $this->attributes['slug'],
-            ]);
-        }
-
-        return route('frontend.articles.show', [
-            $this->attributes['slug'],
-        ]);
-    }
-
-    public function scopeIsActive($query)
-    {
-        $query->where('is_active', 1)
-            ->where(function ($query) {
-                $query->whereNull('published_at')
-                    ->orWhere('published_at', '<=', Carbon::now());
-            });
-    }
-
-    public function setPublishedAtAttribute($value)
-    {
-        if (!$value) {
-            return null;
-        }
-
-        $this->attributes['published_at'] = Carbon::createFromFormat('Y-m-d\TH:i', $value)
-            ->format('Y-m-d H:i:s');
-    }
-
-    public function scopeSort($query)
-    {
-        $sorts = default_sort(config('admix-articles.default_sort'));
-
-        foreach ($sorts as $sort) {
-            $query->orderBy($sort['field'], $sort['direction']);
-        }
-    }
-
-    protected static function newFactory()
+    protected static function newFactory(): ArticleFactory|\Database\Factories\ArticleFactory
     {
         if (class_exists(\Database\Factories\ArticleFactory::class)) {
             return \Database\Factories\ArticleFactory::new();

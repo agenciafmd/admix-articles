@@ -3,85 +3,72 @@
 namespace Agenciafmd\Articles\Providers;
 
 use Agenciafmd\Articles\Models\Article;
-use Agenciafmd\Articles\Models\Category;
 use Agenciafmd\Articles\Observers\ArticleObserver;
 use Illuminate\Support\ServiceProvider;
 
 class ArticleServiceProvider extends ServiceProvider
 {
-    public function boot()
+    public function boot(): void
     {
         $this->providers();
 
         $this->setObservers();
 
-        $this->setSearch();
-
         $this->loadMigrations();
+
+        $this->loadTranslations();
 
         $this->publish();
     }
 
-    public function register()
+    public function register(): void
     {
         $this->loadConfigs();
     }
 
-    protected function providers()
+    private function providers(): void
     {
-        $this->app->register(AuthServiceProvider::class);
         $this->app->register(BladeServiceProvider::class);
+        $this->app->register(CommandServiceProvider::class);
         $this->app->register(RouteServiceProvider::class);
+        $this->app->register(AuthServiceProvider::class);
+        $this->app->register(LivewireServiceProvider::class);
     }
 
-    protected function setObservers()
+    private function publish(): void
+    {
+        $this->publishes([
+            __DIR__ . '/../../config' => base_path('config'),
+        ], 'admix-articles:config');
+
+        $this->publishes([
+            __DIR__ . '/../../database/seeders/ArticleTableSeeder.php' => base_path('database/seeders/ArticleTableSeeder.php'),
+        ], 'admix-articles:seeders');
+
+        $this->publishes([
+            __DIR__ . '/../../lang/pt_BR' => lang_path('pt_BR'),
+        ], ['admix-articles:translations', 'admix-translations']);
+    }
+
+    private function setObservers(): void
     {
         Article::observe(ArticleObserver::class);
     }
 
-    protected function setSearch()
+    private function loadMigrations(): void
     {
-        $this->app->make('admix-search')
-            ->registerModel(Article::class, 'name')
-            ->registerModel(Category::class, 'name');
+        $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
     }
 
-    protected function loadMigrations()
+    private function loadTranslations(): void
     {
-        $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
+        $this->loadTranslationsFrom(__DIR__ . '/../../lang', 'admix-articles');
+        $this->loadJsonTranslationsFrom(__DIR__ . '/../../lang');
     }
 
-    protected function publish()
+    private function loadConfigs(): void
     {
-        $this->publishes([
-            __DIR__ . '/../config/admix-articles.php' => config_path('admix-articles.php'),
-            __DIR__ . '/../config/admix-categories.php' => config_path('admix-categories.php'),
-            __DIR__ . '/../config/upload-configs.php' => config_path('upload-configs.php'),
-        ], 'admix-articles:configs');
-
-
-        $factoriesAndSeeders[__DIR__ . '/../Database/Factories/ArticleFactory.php'] = base_path('database/factories/ArticleFactory.php');
-        $factoriesAndSeeders[__DIR__ . '/../Database/Seeders/ArticlesTableSeeder.php'] = base_path('database/seeders/ArticlesTableSeeder.php');
-        $factoriesAndSeeders[__DIR__ . '/../Database/Faker/articles/image'] = base_path('database/faker/articles/image');
-
-        if (config('admix-articles.downloads')) {
-            $factoriesAndSeeders[__DIR__ . '/../Database/Faker/articles/downloads'] = base_path('database/faker/articles/downloads');
-        }
-
-        if (config('admix-articles.category')) {
-            $factoriesAndSeeders[__DIR__ . '/../Database/Factories/ArticleCategoryFactory.php'] = base_path('database/factories/ArticleCategoryFactory.php');
-            $factoriesAndSeeders[__DIR__ . '/../Database/Seeders/ArticlesCategoriesTableSeeder.php'] = base_path('database/seeders/ArticlesCategoriesTableSeeder.php');
-        }
-
-        $this->publishes($factoriesAndSeeders, 'admix-articles:seeders');
-    }
-
-    protected function loadConfigs()
-    {
-        $this->mergeConfigFrom(__DIR__ . '/../config/admix-articles.php', 'admix-articles');
-        $this->mergeConfigFrom(__DIR__ . '/../config/admix-categories.php', 'admix-categories');
-        $this->mergeConfigFrom(__DIR__ . '/../config/gate.php', 'gate');
-        $this->mergeConfigFrom(__DIR__ . '/../config/audit-alias.php', 'audit-alias');
-        $this->mergeConfigFrom(__DIR__ . '/../config/upload-configs.php', 'upload-configs');
+        $this->mergeConfigFrom(__DIR__ . '/../../config/admix-articles.php', 'admix-articles');
+        $this->mergeConfigFrom(__DIR__ . '/../../config/audit-alias.php', 'audit-alias');
     }
 }

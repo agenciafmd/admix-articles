@@ -10,21 +10,22 @@
 ## Instalação
 
 ```bash
-composer require agenciafmd/admix-articles:dev-master
+composer require agenciafmd/admix-articles:v11.x-dev
 ```
 
 Execute a migração
 
 ```bash
-php artisan migrate
+sail artisan migrate
 ```
 
 Os seeds funcionarão diretamente do pacote. Caso precise de alguma customização, faça a publicação.
 
-Não esqueça de corrigir os namespaces, paths das pastas e rodar o `composer dumpautoload` para que os arquivos sejam encontrados
+Não esqueça de corrigir os namespaces, paths das pastas e rodar o `composer dumpautoload` para que os arquivos sejam
+encontrados
 
 ```bash
-php artisan vendor:publish --tag=admix-articles:seeders
+sail artisan vendor:publish --tag=admix-articles:seeders
 ```
 
 ## Configuração
@@ -35,29 +36,23 @@ Por padrão, as configurações do pacote são:
 <?php
 
 return [
-    'name' => 'Artigos',
-    'icon' => 'icon fe-book',
-    'sort' => 20,
-    'default_sort' => [
-        '-is_active',
-        '-star',
-        '-published_at',
-        'name',
-    ],
-    'category' => false,
-    'wysiwyg' => false,
+    'name' => 'Articles',
+    'icon' => 'template',
+    'sort' => 100,
+    'author' => true,
     'call' => false,
-    'short_description' => false,
+    'short_description' => true,
     'video' => false,
     'published_at' => true,
-    'downloads' => false,
+    'image' => true,
+    'gallery' => false,
 ];
 ```
 
 Se for preciso, você pode customizar estas configurações
 
 ```bash
-php artisan vendor:publish --tag=admix-articles:configs
+sail artisan vendor:publish --tag=admix-articles:configs
 ```
 
 **caso tenha habilitado as categorias, é importante republicar os seeds**

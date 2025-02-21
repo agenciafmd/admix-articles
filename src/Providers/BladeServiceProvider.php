@@ -2,49 +2,64 @@
 
 namespace Agenciafmd\Articles\Providers;
 
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
 class BladeServiceProvider extends ServiceProvider
 {
-    public function boot()
+    public function boot(): void
     {
+        $this->loadBladeComponents();
+
+        $this->loadBladeDirectives();
+
+        $this->loadBladeComposers();
+
         $this->setMenu();
 
         $this->loadViews();
 
-        $this->loadTranslations();
-
         $this->publish();
     }
 
-    public function register()
+    public function register(): void
     {
         //
     }
 
-    protected function setMenu()
+    private function loadBladeComponents(): void
+    {
+        Blade::componentNamespace('Agenciafmd\\Articles\\Http\\Components', 'admix-articles');
+    }
+
+    private function loadBladeComposers(): void
+    {
+        //
+    }
+
+    private function loadBladeDirectives(): void
+    {
+        //
+    }
+
+    private function setMenu(): void
     {
         $this->app->make('admix-menu')
-            ->push((object)[
-                'view' => config('admix-articles.category') ? 'agenciafmd/articles::partials.menus.category-item' : 'agenciafmd/articles::partials.menus.item',
-                'ord' => config('admix-articles.sort', 1),
+            ->push((object) [
+                'component' => 'admix-articles::aside.article',
+                'ord' => config('admix-articles.sort'),
             ]);
     }
 
-    protected function loadViews()
+    private function loadViews(): void
     {
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'agenciafmd/articles');
+        $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'admix-articles');
     }
 
-    protected function loadTranslations()
+    private function publish(): void
     {
-        $this->loadJsonTranslationsFrom(__DIR__ . '/../resources/lang');
-    }
-
-    protected function publish()
-    {
-        $this->publishes([
-            __DIR__ . '/../resources/views' => base_path('resources/views/vendor/agenciafmd/articles'),
-        ], 'admix-articles:views');
+        // $this->publishes([
+        //     __DIR__ . '/../resources/views' => base_path('resources/views/vendor/agenciafmd/articles'),
+        // ], 'admix-articles:views');
     }
 }
