@@ -1,6 +1,6 @@
 ## F&MD - Articles
 
-![Área Administrativa](https://github.com/agenciafmd/admix-articles/raw/master/docs/screenshot.png "Área Administrativa")
+![Área Administrativa](https://github.com/agenciafmd/admix-articles/raw/v8/docs/screenshot.png "Área Administrativa")
 
 [![Downloads](https://img.shields.io/packagist/dt/agenciafmd/admix-articles.svg?style=flat-square)](https://packagist.org/packages/agenciafmd/admix-categories)
 [![Licença](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
@@ -21,7 +21,8 @@ php artisan migrate
 
 Os seeds funcionarão diretamente do pacote. Caso precise de alguma customização, faça a publicação.
 
-Não esqueça de corrigir os namespaces, paths das pastas e rodar o `composer dumpautoload` para que os arquivos sejam encontrados
+Não esqueça de corrigir os namespaces, paths das pastas e rodar o `composer dumpautoload` para que os arquivos sejam
+encontrados
 
 ```bash
 php artisan vendor:publish --tag=admix-articles:seeders
