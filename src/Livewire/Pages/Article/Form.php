@@ -158,8 +158,9 @@ class Form extends LivewireForm
                 'image',
                 'max:1024',
                 Rule::dimensions()
-                    ->maxWidth(1200)
-                    ->maxHeight(1200),
+                    ->maxWidth(config('upload-configs.articles.image.width'))
+                    ->maxHeight(config('upload-configs.articles.image.height'))
+                    ->ratio(config('upload-configs.articles.image.ratio')),
             ];
             $rules['image'] = [
                 'array',
@@ -175,8 +176,9 @@ class Form extends LivewireForm
                 'image',
                 'max:1024',
                 Rule::dimensions()
-                    ->maxWidth(1200)
-                    ->maxHeight(1200),
+                    ->maxWidth(config('upload-configs.articles.gallery.width'))
+                    ->maxHeight(config('upload-configs.articles.gallery.height'))
+                    ->ratio(config('upload-configs.articles.gallery.ratio')),
             ];
             $rules['gallery'] = [
                 'array',

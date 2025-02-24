@@ -52,12 +52,18 @@
         </div>
         @if(config('admix-articles.image'))
             <div class="col-md-12 mb-3">
-                <x-form.image name="form.image" :label="__('admix-articles::fields.image')"/>
+                <x-form.image name="form.image" :label="__('admix-articles::fields.image')"
+                              :cropConfig="[
+                                'aspectRatio' => config('upload-configs.articles.image.ratio'),
+                              ]"/>
             </div>
         @endif
         @if(config('admix-articles.gallery'))
             <div class="col-md-12 mb-3">
-                <x-form.image-library name="form.gallery" :label="__('admix-articles::fields.gallery')"/>
+                <x-form.image-library name="form.gallery" :label="__('admix-articles::fields.gallery')"
+                                      :cropConfig="[
+                                        'aspectRatio' => config('upload-configs.articles.gallery.ratio'),
+                                      ]"/>
             </div>
         @endif
         @if(config('admix-articles.published_at'))

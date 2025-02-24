@@ -39,6 +39,7 @@ class ArticleServiceProvider extends ServiceProvider
     {
         $this->publishes([
             __DIR__ . '/../../config/admix-articles.php' => base_path('config/admix-articles.php'),
+            __DIR__ . '/../../config/upload-configs.php' => base_path('config/upload-configs.php'),
         ], 'admix-articles:configs');
 
         $this->publishes([
