@@ -66,7 +66,7 @@ return [
     'articles' => [
         'image' => [
             'width' => 1920,
-            'height' => 720,
+            'height' => 1080,
             'ratio' => 16 / 9,
         ],
         'gallery' => [
