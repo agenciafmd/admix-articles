@@ -3,7 +3,7 @@
 return [
     'name' => 'Articles',
     'icon' => 'template',
-    'sort' => 100,
+    'sort' => 120,
     'author' => true,
     'call' => false,
     'short_description' => true,

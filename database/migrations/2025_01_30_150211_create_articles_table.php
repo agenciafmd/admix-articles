@@ -9,14 +9,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('articles', static function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->boolean('is_active')
                 ->unsigned()
                 ->index()
                 ->default(1);
             $table->boolean('star')
-                ->default(0);
-            $table->integer('views')
                 ->default(0);
             $table->string('name');
             $table->string('author')
