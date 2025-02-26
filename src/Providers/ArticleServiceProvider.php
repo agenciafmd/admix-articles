@@ -2,8 +2,6 @@
 
 namespace Agenciafmd\Articles\Providers;
 
-use Agenciafmd\Articles\Models\Article;
-use Agenciafmd\Articles\Observers\ArticleObserver;
 use Illuminate\Support\ServiceProvider;
 
 class ArticleServiceProvider extends ServiceProvider
@@ -11,8 +9,6 @@ class ArticleServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->providers();
-
-        $this->setObservers();
 
         $this->loadMigrations();
 
@@ -49,11 +45,6 @@ class ArticleServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../../lang/pt_BR' => lang_path('pt_BR'),
         ], ['admix-articles:translations', 'admix-translations']);
-    }
-
-    private function setObservers(): void
-    {
-        Article::observe(ArticleObserver::class);
     }
 
     private function loadMigrations(): void

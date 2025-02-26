@@ -5,8 +5,10 @@ namespace Agenciafmd\Articles\Models;
 use Agenciafmd\Admix\Traits\WithScopes;
 use Agenciafmd\Admix\Traits\WithSlug;
 use Agenciafmd\Articles\Database\Factories\ArticleFactory;
+use Agenciafmd\Articles\Observers\ArticleObserver;
 use Agenciafmd\Ui\Casts\AsMediaLibrary;
 use Agenciafmd\Ui\Casts\AsSingleMediaLibrary;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -17,6 +19,7 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
+#[ObservedBy([ArticleObserver::class])]
 class Article extends Model implements AuditableContract, HasMedia
 {
     use Auditable, HasFactory, InteractsWithMedia, Prunable, SoftDeletes, WithScopes, WithSlug;
