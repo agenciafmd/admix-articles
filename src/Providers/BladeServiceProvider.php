@@ -19,7 +19,7 @@ class BladeServiceProvider extends ServiceProvider
 
         $this->loadViews();
 
-        $this->publish();
+        $this->bootPublish();
     }
 
     public function register(): void
@@ -56,7 +56,7 @@ class BladeServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'admix-articles');
     }
 
-    private function publish(): void
+    private function bootPublish(): void
     {
         // $this->publishes([
         //     __DIR__ . '/../resources/views' => base_path('resources/views/vendor/agenciafmd/articles'),
