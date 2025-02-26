@@ -1,11 +1,11 @@
 ## F&MD - Articles
 
-![Área Administrativa](https://github.com/agenciafmd/admix-articles/raw/master/docs/screenshot.png "Área Administrativa")
+![Área Administrativa](https://github.com/agenciafmd/admix-articles/raw/v11/docs/screenshot.png "Área Administrativa")
 
 [![Downloads](https://img.shields.io/packagist/dt/agenciafmd/admix-articles.svg?style=flat-square)](https://packagist.org/packages/agenciafmd/admix-categories)
 [![Licença](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
 
-- Artigos no site sem dor de cabeça
+- Artigos
 
 ## Instalação
 
@@ -21,7 +21,8 @@ sail artisan migrate
 
 Os seeds funcionarão diretamente do pacote. Caso precise de alguma customização, faça a publicação.
 
-Não esqueça de corrigir os namespaces, paths das pastas e rodar o `composer dumpautoload` para que os arquivos sejam
+Não esqueça de corrigir os namespaces, paths das pastas e rodar o `sail composer dumpautoload` para que os arquivos
+sejam
 encontrados
 
 ```bash
@@ -80,9 +81,9 @@ return [
 
 ## Segurança
 
-Caso encontre alguma falha de segurança, por favor, envie um email para irineu@fmd.ag ao invés de abrir uma issue
+Caso encontre alguma falha de segurança, por favor, envie um e-mail para irineu@fmd.ag ao invés de abrir uma issue
 
-## Creditos
+## Créditos
 
 - [Irineu Junior](https://github.com/irineujunior)
 
