@@ -9,6 +9,15 @@ return [
     'short_description' => true,
     'video' => false,
     'published_at' => true,
-    'image' => true,
-    'gallery' => false,
+    'image' => [
+        'max' => 2048,
+        'max_width' => 3840,
+        'max_height' => 2160,
+        'crop' => true,
+        'ratio' => 16 / 9,
+        'meta' => false,
+    ],
+    'gallery' => [
+        //
+    ],
 ];

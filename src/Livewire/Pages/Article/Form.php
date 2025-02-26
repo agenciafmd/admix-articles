@@ -24,22 +24,22 @@ class Form extends LivewireForm
     public bool $star = false;
 
     #[Validate]
-    public ?string $name = '';
+    public string $name = '';
 
     #[Validate]
-    public ?string $author = '';
+    public ?string $author = null;
 
     #[Validate]
-    public ?string $call = '';
+    public ?string $call = null;
 
     #[Validate]
-    public ?string $short_description = '';
+    public ?string $short_description = null;
 
     #[Validate]
-    public ?string $video = '';
+    public ?string $video = null;
 
     #[Validate]
-    public ?string $description = '';
+    public ?string $description = null;
 
     #[Validate]
     public array $image_files = [];
@@ -156,11 +156,10 @@ class Form extends LivewireForm
         if (config('admix-articles.image')) {
             $rules['image_files.*'] = [
                 'image',
-                'max:1024',
+                'max:' . config('admix-articles.image.max'),
                 Rule::dimensions()
-                    ->maxWidth(config('upload-configs.articles.image.width'))
-                    ->maxHeight(config('upload-configs.articles.image.height'))
-                    ->ratio(config('upload-configs.articles.image.ratio')),
+                    ->maxWidth(config('admix-articles.image.max_width'))
+                    ->maxHeight(config('admix-articles.image.max_height')),
             ];
             $rules['image'] = [
                 'array',
@@ -174,11 +173,10 @@ class Form extends LivewireForm
         if (config('admix-articles.gallery')) {
             $rules['gallery_files.*'] = [
                 'image',
-                'max:1024',
+                'max:' . config('admix-articles.gallery.max'),
                 Rule::dimensions()
-                    ->maxWidth(config('upload-configs.articles.gallery.width'))
-                    ->maxHeight(config('upload-configs.articles.gallery.height'))
-                    ->ratio(config('upload-configs.articles.gallery.ratio')),
+                    ->maxWidth(config('admix-articles.gallery.max_width'))
+                    ->maxHeight(config('admix-articles.gallery.max_height')),
             ];
             $rules['gallery'] = [
                 'array',
@@ -226,7 +224,15 @@ class Form extends LivewireForm
     public function save(): bool
     {
         $this->validate(rules: $this->rules(), attributes: $this->validationAttributes());
-        $this->article->fill($this->except('article'));
+        $this->article->fill($this->except([
+            'article',
+            'image',
+            'image_files',
+            'image_meta',
+            'gallery',
+            'gallery_files',
+            'gallery_meta',
+        ]));
 
         if (!$this->article->exists) {
             $this->article->save();

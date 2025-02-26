@@ -8,6 +8,7 @@ use Agenciafmd\Articles\Database\Factories\ArticleFactory;
 use Agenciafmd\Articles\Observers\ArticleObserver;
 use Agenciafmd\Ui\Casts\AsMediaLibrary;
 use Agenciafmd\Ui\Casts\AsSingleMediaLibrary;
+use Agenciafmd\Ui\Traits\WithUpload;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -22,28 +23,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 #[ObservedBy([ArticleObserver::class])]
 class Article extends Model implements AuditableContract, HasMedia
 {
-    use Auditable, HasFactory, InteractsWithMedia, Prunable, SoftDeletes, WithScopes, WithSlug;
-
-    protected $fillable = [
-        'is_active',
-        'star',
-        'name',
-        'author',
-        'call',
-        'short_description',
-        'video',
-        'description',
-        'published_at',
-        'sort',
-    ];
-
-    protected $casts = [
-        'is_active' => 'boolean',
-        'star' => 'boolean',
-        'published_at' => 'datetime',
-        'image' => AsSingleMediaLibrary::class,
-        'gallery' => AsMediaLibrary::class,
-    ];
+    use Auditable, HasFactory, InteractsWithMedia, Prunable, SoftDeletes, WithScopes, WithSlug, WithUpload;
 
     protected array $defaultSort = [
         'is_active' => 'desc',
@@ -52,6 +32,17 @@ class Article extends Model implements AuditableContract, HasMedia
         'published_at' => 'desc',
         'name' => 'asc',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'is_active' => 'boolean',
+            'star' => 'boolean',
+            'published_at' => 'datetime',
+            'image' => AsSingleMediaLibrary::class,
+            'gallery' => AsMediaLibrary::class,
+        ];
+    }
 
     public function prunable(): Builder
     {
