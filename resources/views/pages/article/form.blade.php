@@ -77,9 +77,9 @@
                 <x-form.image
                         name="form.image"
                         :label="__('admix-articles::fields.image')"
-                        :cropConfig="[
-                            'aspectRatio' => config('upload-configs.articles.image.ratio'),
-                        ]"
+                        :hide-content="!config('admix-articles.image.show_meta')"
+                        :hide-crop="!config('admix-articles.image.crop_config')"
+                        :crop-config="config('admix-articles.image.crop_config')"
                 />
             </div>
         @endif
@@ -88,7 +88,7 @@
                 <x-form.image-library
                         name="form.gallery"
                         :label="__('admix-articles::fields.gallery')"
-                        :cropConfig="[
+                        :crop-config="[
                             'aspectRatio' => config('upload-configs.articles.gallery.ratio'),
                         ]"
                 />

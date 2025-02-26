@@ -13,9 +13,10 @@ return [
         'max' => 2048,
         'max_width' => 3840,
         'max_height' => 2160,
-        'crop' => true,
-        'ratio' => 16 / 9,
-        'meta' => false,
+        'crop_config' => [
+            //            'aspectRatio' => round(3840 / 2160, 2),
+        ],
+        'show_meta' => false,
     ],
     'gallery' => [
         //

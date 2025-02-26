@@ -39,14 +39,24 @@ Por padrão, as configurações do pacote são:
 return [
     'name' => 'Articles',
     'icon' => 'template',
-    'sort' => 100,
+    'sort' => 120,
     'author' => true,
     'call' => false,
     'short_description' => true,
     'video' => false,
     'published_at' => true,
-    'image' => true,
-    'gallery' => false,
+    'image' => [
+        'max' => 2048, // em kb
+        'max_width' => 3840,
+        'max_height' => 2160,
+        'crop_config' => [
+            // 'aspectRatio' => round(3840 / 2160, 2),
+        ],
+        'show_meta' => false,
+    ],
+    'gallery' => [
+        //
+    ],
 ];
 ```
 
@@ -57,27 +67,6 @@ sail artisan vendor:publish --tag=admix-articles:configs
 ```
 
 **caso tenha habilitado as categorias, é importante republicar os seeds**
-
-Para as imagens, faça a mesclagem do `/vendor/agenciafmd/admix-articles/src/config/upload-configs.php` na sua aplicação
-
-```php
-<?php
-
-return [
-    'articles' => [
-        'image' => [
-            'width' => 1920,
-            'height' => 1080,
-            'ratio' => 16 / 9,
-        ],
-        'gallery' => [
-            'width' => 1920,
-            'height' => 1080,
-            'ratio' => 16 / 9,
-        ],
-    ],
-];
-```
 
 ## Segurança
 
