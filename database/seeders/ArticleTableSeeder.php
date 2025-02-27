@@ -20,6 +20,7 @@ class ArticleTableSeeder extends Seeder
         collect(range(1, $this->total))
             ->each(function () {
                 Article::factory()
+                    ->withMedia()
                     ->create();
 
                 //                $this->command->getOutput()

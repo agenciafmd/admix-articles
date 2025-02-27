@@ -4,6 +4,8 @@ namespace Agenciafmd\Articles\Database\Factories;
 
 use Agenciafmd\Articles\Models\Article;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Http\File as HttpFile;
+use Illuminate\Support\Facades\File;
 
 class ArticleFactory extends Factory
 {
@@ -34,5 +36,35 @@ class ArticleFactory extends Factory
                 ->format('Y-m-d\TH:i') : null,
             'sort' => null,
         ];
+    }
+
+    public function withMedia(): ArticleFactory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                //
+            ];
+        })
+            ->afterCreating(function ($model) {
+                collect(['image', 'gallery'])->each(function ($collection) use ($model) {
+                    $fakerDir = base_path("database/faker/articles/files/{$collection}");
+                    if (!File::isDirectory($fakerDir)) {
+                        $fakerDir = __DIR__ . "/../faker/files/{$collection}";
+                    }
+
+                    if (collect(['image'])->contains($collection) && config('admix-articles.image')) {
+                        $sourceFile = fake()->file($fakerDir, storage_path('media-library/temp'));
+                        $model->doUpload(new HttpFile($sourceFile), $collection);
+                    }
+
+                    if (collect(['gallery'])->contains($collection) && config('admix-articles.gallery')) {
+                        $items = fake()->numberBetween(0, 6);
+                        for ($i = 0; $i < $items; $i++) {
+                            $sourceFile = fake()->file($fakerDir, storage_path('media-library/temp'));
+                            $model->doUpload(new HttpFile($sourceFile), $collection);
+                        }
+                    }
+                });
+            });
     }
 }
