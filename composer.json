@@ -13,7 +13,7 @@
     ],
     "require": {
         "laravel/framework": "^8.0",
-        "agenciafmd/admix-categories": "dev-master"
+        "agenciafmd/admix-categories": "v8.x-dev"
     },
     "autoload": {
         "files": [
