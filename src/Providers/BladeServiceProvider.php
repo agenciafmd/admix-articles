@@ -15,9 +15,9 @@ class BladeServiceProvider extends ServiceProvider
 
         $this->loadBladeComposers();
 
-        $this->setMenu();
+        $this->bootMenu();
 
-        $this->loadViews();
+        $this->bootViews();
 
         $this->bootPublish();
     }
@@ -42,7 +42,7 @@ class BladeServiceProvider extends ServiceProvider
         //
     }
 
-    private function setMenu(): void
+    private function bootMenu(): void
     {
         $this->app->make('admix-menu')
             ->push((object) [
@@ -51,7 +51,7 @@ class BladeServiceProvider extends ServiceProvider
             ]);
     }
 
-    private function loadViews(): void
+    private function bootViews(): void
     {
         $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'admix-articles');
     }
