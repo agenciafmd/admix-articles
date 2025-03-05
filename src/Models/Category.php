@@ -28,7 +28,7 @@ class Category extends CategoryBase implements Searchable
         $this->searchableType = config('admix-categories.articles-categories.name');
     }
 
-    protected static function boot()
+    protected static function boot(): void
     {
         parent::boot();
 
@@ -53,7 +53,7 @@ class Category extends CategoryBase implements Searchable
         ]);
     }
 
-    public function scopeSort($query, $type = 'articles-categories')
+    public function scopeSort($query, $type = 'articles-categories'): void
     {
         parent::scopeSort($query, $type);
     }
