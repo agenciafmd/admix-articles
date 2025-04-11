@@ -6,6 +6,7 @@ use Agenciafmd\Articles\Models\Article;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Http\File as HttpFile;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class ArticleFactory extends Factory
 {
@@ -54,14 +55,16 @@ class ArticleFactory extends Factory
 
                     if (collect(['image'])->contains($collection) && config('admix-articles.image')) {
                         $sourceFile = fake()->file($fakerDir, storage_path('media-library/temp'));
-                        $model->doUpload(new HttpFile($sourceFile), $collection);
+                        $targetFile = Storage::putFile('tmp', new HttpFile($sourceFile));
+                        $model->doUpload(new HttpFile(Storage::path($targetFile)), $collection);
                     }
 
                     if (collect(['gallery'])->contains($collection) && config('admix-articles.gallery')) {
                         $items = fake()->numberBetween(0, 6);
                         for ($i = 0; $i < $items; $i++) {
                             $sourceFile = fake()->file($fakerDir, storage_path('media-library/temp'));
-                            $model->doUpload(new HttpFile($sourceFile), $collection);
+                            $targetFile = Storage::putFile('tmp', new HttpFile($sourceFile));
+                            $model->doUpload(new HttpFile(Storage::path($targetFile)), $collection);
                         }
                     }
                 });
