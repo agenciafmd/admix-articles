@@ -6,6 +6,7 @@ use Agenciafmd\Admix\Traits\WithScopes;
 use Agenciafmd\Admix\Traits\WithSlug;
 use Agenciafmd\Articles\Database\Factories\ArticleFactory;
 use Agenciafmd\Articles\Observers\ArticleObserver;
+use Agenciafmd\Categories\Traits\WithCategories;
 use Agenciafmd\Ui\Casts\AsMediaLibrary;
 use Agenciafmd\Ui\Casts\AsSingleMediaLibrary;
 use Agenciafmd\Ui\Traits\WithUpload;
@@ -23,7 +24,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 #[ObservedBy([ArticleObserver::class])]
 class Article extends Model implements AuditableContract, HasMedia
 {
-    use Auditable, HasFactory, InteractsWithMedia, Prunable, SoftDeletes, WithScopes, WithSlug, WithUpload;
+    use Auditable, HasFactory, InteractsWithMedia, Prunable, SoftDeletes, WithCategories, WithScopes, WithSlug, WithUpload;
 
     protected array $defaultSort = [
         'is_active' => 'desc',

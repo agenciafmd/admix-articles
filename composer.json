@@ -12,7 +12,8 @@
     }
   ],
   "require": {
-    "laravel/framework": "^11.0"
+    "laravel/framework": "^11.0",
+    "agenciafmd/admix-categories": "v11.x-dev"
   },
   "autoload": {
     "psr-4": {

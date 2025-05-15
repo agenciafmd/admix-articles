@@ -4,6 +4,7 @@ return [
     'name' => 'Articles',
     'icon' => 'template',
     'sort' => 120,
+    'category' => false,
     'author' => true,
     'call' => false,
     'short_description' => true,

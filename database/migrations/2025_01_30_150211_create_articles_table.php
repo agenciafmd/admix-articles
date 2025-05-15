@@ -21,6 +21,8 @@ return new class extends Migration
                 ->nullable();
             $table->string('call')
                 ->nullable();
+            $table->integer('category')
+                ->nullable();
             $table->text('short_description')
                 ->nullable();
             $table->string('video')

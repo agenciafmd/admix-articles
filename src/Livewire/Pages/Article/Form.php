@@ -6,6 +6,7 @@ use Agenciafmd\Articles\Models\Article;
 use Agenciafmd\Support\Helper;
 use Agenciafmd\Support\Rules\YoutubeUrl;
 use Agenciafmd\Ui\Traits\WithMediaSync;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Validate;
@@ -31,6 +32,9 @@ class Form extends LivewireForm
 
     #[Validate]
     public ?string $call = null;
+
+    #[Validate]
+    public int $category = 0;
 
     #[Validate]
     public ?string $short_description = null;
@@ -78,6 +82,9 @@ class Form extends LivewireForm
             $this->name = $article->name;
             $this->author = $article->author;
             $this->call = $article->call;
+            $this->category = $article
+                ->loadCategory()
+                ?->id ?? 0;
             $this->short_description = $article->short_description;
             $this->video = $article->video;
             $this->description = $article->description;
@@ -116,6 +123,18 @@ class Form extends LivewireForm
                 'integer',
             ],
         ];
+
+        if (config('admix-articles.category')) {
+            $rules['category'] = [
+                'required',
+                'integer',
+                Rule::exists('categories', 'id')
+                    ->where(function (Builder $builder) {
+                        $builder->where('model', Article::class)
+                            ->where('type', 'categories');
+                    }),
+            ];
+        }
 
         if (config('admix-articles.author')) {
             $rules['author'] = [
@@ -207,6 +226,7 @@ class Form extends LivewireForm
             'name' => __('admix-articles::fields.name'),
             'author' => __('admix-articles::fields.author'),
             'call' => __('admix-articles::fields.call'),
+            'category' => __('admix-articles::fields.category'),
             'short_description' => __('admix-articles::fields.short_description'),
             'description' => __('admix-articles::fields.description'),
             'image' => __('admix-articles::fields.image'),
@@ -244,6 +264,10 @@ class Form extends LivewireForm
 
         if (config('admix-articles.gallery')) {
             $this->syncMedia($this->article, 'gallery');
+        }
+
+        if (config('admix-articles.category')) {
+            $this->article->syncCategories([$this->category]);
         }
 
         return $this->article->save();

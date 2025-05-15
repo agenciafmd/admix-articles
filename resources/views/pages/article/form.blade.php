@@ -49,6 +49,15 @@
                 />
             </div>
         @endif
+        @if(config('admix-articles.category'))
+            <div class="col-md-6 mb-3">
+                <x-categories::form.select
+                        name="form.category"
+                        :label="__('admix-articles::fields.category')"
+                        :model=\Agenciafmd\Articles\Models\Article::class,
+                />
+            </div>
+        @endif
         @if(config('admix-articles.short_description'))
             <div class="col-md-6 mb-3">
                 <x-form.input
