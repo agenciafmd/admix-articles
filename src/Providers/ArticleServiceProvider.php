@@ -37,9 +37,13 @@ class ArticleServiceProvider extends ServiceProvider
             __DIR__ . '/../../config/admix-articles.php' => base_path('config/admix-articles.php'),
         ], 'admix-articles:configs');
 
-        $this->publishes([
-            __DIR__ . '/../../database/seeders/ArticleTableSeeder.php' => base_path('database/seeders/ArticleTableSeeder.php'),
-        ], 'admix-articles:seeders');
+        $seeders[__DIR__ . '/../../database/seeders/ArticleTableSeeder.php'] = base_path('database/seeders/ArticleTableSeeder.php');
+
+        if (config('admix-articles.category')) {
+            $seeders[__DIR__ . '/../../database/seeders/ArticleCategoryTableSeeder.php'] = base_path('database/seeders/ArticleCategoryTableSeeder.php');
+        }
+
+        $this->publishes($seeders, 'admix-articles:seeders');
 
         $this->publishes([
             __DIR__ . '/../../lang/pt_BR' => lang_path('pt_BR'),

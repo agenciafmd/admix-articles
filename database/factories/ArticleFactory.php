@@ -3,6 +3,7 @@
 namespace Agenciafmd\Articles\Database\Factories;
 
 use Agenciafmd\Articles\Models\Article;
+use Agenciafmd\Categories\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Http\File as HttpFile;
 use Illuminate\Support\Facades\File;
@@ -69,5 +70,32 @@ class ArticleFactory extends Factory
                     }
                 });
             });
+    }
+
+    public function withTags(int $total = 10, string $type = 'tags'): Factory
+    {
+        $categories = Category::query()
+            ->where('type', $type)
+            ->where('model', $this->model)
+            ->inRandomOrder()
+            ->pluck('id');
+
+        return $this->state(function (array $attributes) {
+            return [
+                //
+            ];
+        })->afterMaking(function (Article $article) {
+            //
+        })->afterCreating(function (Article $article) use ($type, $categories, $total) {
+            $article->categories()
+                ->where('model', $this->model)
+                ->where('type', $type)
+                ->sync($categories->random($total)->toArray(), false);
+        });
+    }
+
+    public function withCategory(string $type = 'categories'): Factory
+    {
+        return $this->withTags(1, $type);
     }
 }

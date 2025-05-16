@@ -19,9 +19,13 @@ class ArticleTableSeeder extends Seeder
 
         collect(range(1, $this->total))
             ->each(function () {
-                Article::factory()
-                    ->withMedia()
-                    ->create();
+                $factory = Article::factory()->withMedia();
+
+                if (config('admix-articles.category')) {
+                    $factory = $factory->withCategory();
+                }
+
+                $factory->create();
 
                 //                $this->command->getOutput()
                 //                    ->progressAdvance();
