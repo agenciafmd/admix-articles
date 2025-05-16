@@ -246,6 +246,7 @@ class Form extends LivewireForm
         $this->validate(rules: $this->rules(), attributes: $this->validationAttributes());
         $this->article->fill($this->except([
             'article',
+            'category',
             'image',
             'image_files',
             'image_meta',
