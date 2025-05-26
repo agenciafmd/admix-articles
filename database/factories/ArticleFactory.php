@@ -90,7 +90,10 @@ class ArticleFactory extends Factory
             $article->categories()
                 ->where('model', $this->model)
                 ->where('type', $type)
-                ->sync($categories->random($total)->toArray(), false);
+                ->attach($categories->random($total)->toArray(), [
+                    'categoriable_type' => $this->model,
+                    'type' => $type,
+                ]);
         });
     }
 
