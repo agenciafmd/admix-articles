@@ -4,6 +4,7 @@ namespace Agenciafmd\Articles\Livewire\Pages\Article;
 
 use Agenciafmd\Admix\Livewire\Pages\Base\Index as BaseIndex;
 use Agenciafmd\Articles\Models\Article;
+use Agenciafmd\Categories\Services\CategoryService;
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\Views\Filters\SelectFilter;
@@ -49,7 +50,7 @@ class Index extends BaseIndex
 
         $this->setAdditionalFilters([
             SelectFilter::make(__('admix-articles::fields.category'), 'category')
-                ->options(['' => __('-'), ...(new Article)->categoriesToSelect()])
+                ->options(['' => __('-')] + (new CategoryService)->toSelect(Article::class))
                 ->filter(static function (Builder $builder, string $value) {
                     $builder->whereHas('categories', function ($builder) use ($value) {
                         $builder->where($builder->qualifyColumn('model'), Article::class)
