@@ -57,7 +57,7 @@ class ArticleFactory extends Factory
                     if (collect(['image'])->contains($collection) && config('admix-articles.image')) {
                         $sourceFile = fake()->file($fakerDir, storage_path('media-library/temp'));
                         $targetFile = Storage::putFile('tmp', new HttpFile($sourceFile));
-                        $model->doUpload(new HttpFile(Storage::path($targetFile)), $collection);
+                        $model->doUpload($targetFile, $collection);
                     }
 
                     if (collect(['gallery'])->contains($collection) && config('admix-articles.gallery')) {
@@ -65,7 +65,7 @@ class ArticleFactory extends Factory
                         for ($i = 0; $i < $items; $i++) {
                             $sourceFile = fake()->file($fakerDir, storage_path('media-library/temp'));
                             $targetFile = Storage::putFile('tmp', new HttpFile($sourceFile));
-                            $model->doUpload(new HttpFile(Storage::path($targetFile)), $collection);
+                            $model->doUpload($targetFile, $collection);
                         }
                     }
                 });
