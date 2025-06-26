@@ -20,14 +20,14 @@ class Article extends Component
 
     public function render(): View
     {
+        $model = 'articles';
         $this->icon = __(config('admix-articles.icon'));
         $this->label = __(config('admix-articles.name'));
         $this->url = !config('admix-articles.category') ? route('admix.articles.index') : '';
-        $this->active = request()?->currentRouteNameStartsWith('admix.articles');
+        $this->active = request()?->currentRouteNameStartsWith('admix.articles') || (request()->categoryModel === $model);
         $this->visible = Gate::allows('view', ArticleModel::class);
 
         if (config('admix-articles.category')) {
-            $model = 'articles';
             $types = collect(config('admix-categories.categories'))
                 ->where('slug', $model)->first()['types'];
             $children = collect($types)->map(function ($item) use ($model) {
