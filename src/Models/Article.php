@@ -12,6 +12,7 @@ use Agenciafmd\Ui\Casts\AsSingleMediaLibrary;
 use Agenciafmd\Ui\Traits\WithUpload;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Prunable;
@@ -43,6 +44,13 @@ class Article extends Model implements AuditableContract, HasMedia
             'image' => AsSingleMediaLibrary::class,
             'gallery' => AsMediaLibrary::class,
         ];
+    }
+
+    protected function description(): Attribute
+    {
+        return Attribute::make(
+            get: static fn(string $value) => str($value)->markdown(),
+        );
     }
 
     public function prunable(): Builder
