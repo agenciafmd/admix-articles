@@ -82,9 +82,9 @@ class Form extends LivewireForm
             $this->name = $article->name;
             $this->author = $article->author;
             $this->call = $article->call;
-            $this->category = $article
+            $this->category = config('admix-articles.category') ? ($article
                 ->loadCategory()
-                ?->id ?? 0;
+                ?->id ?? 0) : 0;
             $this->short_description = $article->short_description;
             $this->video = $article->video;
             $this->description = $article->description;

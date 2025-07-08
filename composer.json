@@ -1,35 +1,35 @@
 {
-  "name": "agenciafmd/admix-articles",
-  "description": "Artigos - Agência F&MD",
-  "homepage": "https://github.com/agenciafmd/admix-articles",
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "Irineu Junior",
-      "email": "irineu@fmd.ag",
-      "homepage": "https://fmd.ag/",
-      "role": "Developer"
+    "name": "agenciafmd/admix-articles",
+    "description": "Artigos - Agência F&MD",
+    "homepage": "https://github.com/agenciafmd/admix-articles",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Irineu Junior",
+            "email": "irineu@fmd.ag",
+            "homepage": "https://fmd.ag/",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "laravel/framework": "^11.0",
+        "agenciafmd/admix-categories": "v11.x-dev|dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "Agenciafmd\\Articles\\": "src/",
+            "Agenciafmd\\Articles\\Database\\Factories\\": "database/factories/",
+            "Agenciafmd\\Articles\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Agenciafmd\\Articles\\Providers\\ArticleServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
     }
-  ],
-  "require": {
-    "laravel/framework": "^11.0",
-    "agenciafmd/admix-categories": "v11.x-dev"
-  },
-  "autoload": {
-    "psr-4": {
-      "Agenciafmd\\Articles\\": "src/",
-      "Agenciafmd\\Articles\\Database\\Factories\\": "database/factories/",
-      "Agenciafmd\\Articles\\Database\\Seeders\\": "database/seeders/"
-    }
-  },
-  "extra": {
-    "laravel": {
-      "providers": [
-        "Agenciafmd\\Articles\\Providers\\ArticleServiceProvider"
-      ]
-    }
-  },
-  "config": {
-    "sort-packages": true
-  }
 }
