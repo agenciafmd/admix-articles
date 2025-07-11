@@ -46,10 +46,12 @@ class Article extends Model implements AuditableContract, HasMedia
         ];
     }
 
-    protected function description(): Attribute
+    protected function frontDescription(): Attribute
     {
         return Attribute::make(
-            get: static fn(string $value) => str($value)->markdown(),
+            get: static fn (mixed $value, $attributes) => str($attributes['description'])->markdown([
+                'allow_unsafe_links' => false,
+            ]),
         );
     }
 
