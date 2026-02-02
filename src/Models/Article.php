@@ -55,6 +55,16 @@ class Article extends Model implements AuditableContract, HasMedia
         );
     }
 
+    public function url(): Attribute
+    {
+        return Attribute::make(
+            get: static fn(mixed $value, array $attributes) => route(
+                'frontend.articles.show',
+                $attributes['slug']
+            ),
+        );
+    }
+
     public function prunable(): Builder
     {
         return static::query()->where('deleted_at', '<=', now()->subYear());
