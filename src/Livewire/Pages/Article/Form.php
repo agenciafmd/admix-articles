@@ -159,7 +159,8 @@ class Form extends LivewireForm
 
         if (config('admix-articles.video')) {
             $rules['video'] = [
-                'required',
+                'nullable',
+                'sometimes',
                 'string',
                 new YoutubeUrl,
             ];
